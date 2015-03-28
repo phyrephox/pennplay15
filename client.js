@@ -148,7 +148,7 @@ function handleMouseUp(e) {
     if (endCity==-1) {
         endCity = cities.length;
     }
-    console.log(startCity+" "+endCity);
+    //console.log(startCity+" "+endCity);
     if (startCity==endCity) {
         var count = 0;
         var newRoads = [];
@@ -160,9 +160,9 @@ function handleMouseUp(e) {
                 var from = 0;
                 var to = 0;
                 for (var j=0;j<cities.length;j++){
-                    if (cities[j].contains(roads[j].x0, roads[j].y0)) {
+                    if (cities[j].contains(roads[i].x0, roads[i].y0)) {
                         from = j;
-                    } else if (cities[j].contains(roads[j].x2, roads[j].y2)) {
+                    } else if (cities[j].contains(roads[i].x2, roads[i].y2)) {
                         to = j;
                     }
                 }
