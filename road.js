@@ -37,12 +37,14 @@ function Road(ax, ay, bx, by){
                 xDraw-=1000;
             }
             ctx.moveTo(xDraw,y);
-            ctx.arc(xDraw,y,3*i,0,2*Math.PI);
+            ctx.arc(xDraw,y,3*t,0,2*Math.PI);
         }
     }
     this.cross = function(x2, y2, x3, y3){
         var x0=this.x0;
         var x1=this.x2;
+        var y0=this.y0;
+        var y1=this.y2;
         var xInt = ((x0*y1-y0*x1)*(x2-x3)-(x0-x1)*(x2*y3-y2*x3))/((x0-x1)*(y2-y3)-(y0-y1)*(x2-x3));
         var count = 0;
         if (xInt<x0 && xInt>x1){
@@ -55,7 +57,9 @@ function Road(ax, ay, bx, by){
         } else if(xInt>x2 && xInt<x3){
             count++;
         }
-        if (count ==2){
+        console.log(count);
+        return xInt;
+        if (count == 2){
             return true;
         }
         return false;

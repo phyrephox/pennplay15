@@ -19,7 +19,7 @@ var startY = 0;
 
 var socket = io();
 socket.on('new-state', function(state){
-    roads=[];
+    /*roads=[];
     var count;
     for (var i=0; i<state.length; i++){
         for (var j=0; j<state[i].outEdges.length; j++){
@@ -28,11 +28,12 @@ socket.on('new-state', function(state){
             }
         }
         cities[i]=new City(state.x, state.y, state.owner);
-    }
+    }*/
 });
 
 function draw(){
     //console.log(cities);
+    //console.log(roads);
     ctx.clearRect(0,0,640,640);
     offset+=scroll;
     if (offset < 0) {
@@ -45,6 +46,8 @@ function draw(){
     for (var i=0;i<cities.length;i++){
         cities[i].draw(ctx, offset);
     }
+    ctx.fill();
+    ctx.beginPath();
     for (var i=0;i<roads.length;i++){
         roads[i].draw(ctx, offset);
     }
@@ -96,7 +99,7 @@ function handleMouseUp(e) {
     console.log(startCity+" "+endCity);
     if (startCity==endCity) {
         for (var i=0; i<roads.length; i++){
-            console.log(i+" "+roads[i].cross(startX, startY, x, y);
+            console.log(i+" "+roads[i].cross(startX, startY, x, y));
         }
         return;
     }
