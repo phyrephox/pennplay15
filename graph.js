@@ -55,8 +55,8 @@ function graph() {
 
 	//adds a node to the graph.
 	//returns the index of the node (used to identify the vertex.)
-	this.addVertex = function(x, y) {
-		this.vertices[this.vertices.length] = new vertex(x, y);
+	this.addVertex = function(x, y, owner) {
+		this.vertices[this.vertices.length] = new vertex(x, y, owner);
 		return this.vertices.length - 1;
 	}
 

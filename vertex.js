@@ -1,11 +1,11 @@
-function vertex(x, y) {
+function vertex(x, y, owner) {
 	this.inEdges = [];
 	this.outEdges = [];
 	this.p1rank;
 	this.p2rank;
 	this.x = x;
 	this.y = y;
-	this.owner;
+	this.owner = owner;
 
 
 	//returns true if this vertex has an edge to v. False otherwise.

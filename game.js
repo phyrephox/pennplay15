@@ -12,9 +12,8 @@ function game() {
 		//		this.gameloop();
 
 		callback = cb;
-		g.addVertex(0, 0);
-		g.addVertex(0, 1);
-		g.addEdge(0, 1, 10);
+		g.addVertex(250, 320);
+		g.addVertex(750, 320);
 		console.log(callback);
 		setInterval(this.gameloop,50);
 	}
@@ -34,23 +33,28 @@ function game() {
 			}
 
 			g.updateNodes();
-			callback(getState());
+			callback(that.getUpdate());
 			time = now;
 		}
 	}
+	this.getUpdate = function() {
+		//TODO
+		console.log("NUTIN HET");
+	}
 
-	var getState = function() {
+	this.getState = function() {
 		return g.getVertices();
 	}
 
-	var newVertex = function(x, y, index, reset) {
+	this.newVertex = function(x, y, index, reset) {
 		realIndex = g.addVertex(x,y);
+		console.log("real=", realIndex, " fake=", index);  
 		if (index != realIndex) {
 			reset(); //calls function in server to send reset state to client.
 		}
 	}
 
-	var newEdge = function(u, v, weight) {
+	this.newEdge = function(u, v, weight) {
 		g.addEdge(u, v, weight);
 	}
 
