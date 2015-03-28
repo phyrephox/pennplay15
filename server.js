@@ -39,8 +39,8 @@ io.on('connection', function(socket) {
 				console.log("old" + firstSocket);
 				socket.game = firstSocket.game;
 				socket.game.start(function(state) {
-					socket.emit('new-state', state);
-					firstSocket.emit('new-state', state);
+					socket.emit('update', state);
+					firstSocket.emit('update', state);
 				});
 				console.log('second' + socket.game);
 				socket.emit('found');
@@ -52,9 +52,17 @@ io.on('connection', function(socket) {
 
 	socket.on('playing', function() {
 		console.log('playing');
-		
-
 	});
+
+	socket.on('new_city', function(c) {
+		socket.game.newVertex(c[0], c[1], c[2], function() {
+			socket.emit('new-state', socket.game.getState(),
+		});
+	}
+
+	socket.on('new_road', function(road) {
+		socket.game.newEdge(road[0], road[1], road[2], weight);
+	}
 
 
 

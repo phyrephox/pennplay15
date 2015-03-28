@@ -43,5 +43,16 @@ function game() {
 		return g.getVertices();
 	}
 
+	var newVertex = function(x, y, index, reset) {
+		realIndex = g.addVertex(x,y);
+		if (index != realIndex) {
+			reset(); //calls function in server to send reset state to client.
+		}
+	}
+
+	var newEdge = function(u, v, weight) {
+		g.addEdge(u, v, weight);
+	}
+
 }
 module.exports = game;

@@ -1,1 +1,4 @@
-# pennplay15
+# pennplay15 -- Mars Economic Diplomacy
+
+##Gameplay
+
