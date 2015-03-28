@@ -29,7 +29,7 @@ function City(xPos,yPos){
     
     this.contains = function(x, y) {
         dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
-        if (dist < 4*rad*rad) {
+        if (dist < rad*rad) {
             return true;
         }return false;
     }
