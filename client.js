@@ -20,10 +20,11 @@ var team = 0;
 var socket = io();
 socket.on('found', function(msg){
     team = msg;
+    console.log(team);
 });
 
 socket.on('new-state', function(state){
-    console.log(state);
+    //console.log(state);
     roads=[];
     for (var i=0; i<state.length; i++){
         cities[i]=new City(state[i].x, state[i].y, state[i].owner);
@@ -42,8 +43,8 @@ socket.on('new-state', function(state){
         }
     }
     roads.length=count;
-    console.log(cities);
-    console.log(roads);
+    //console.log(cities);
+    //console.log(roads);
 });
 
 socket.on('update', function(state){
@@ -51,6 +52,7 @@ socket.on('update', function(state){
     roads=[];
     for (var i=0; i<state.length; i++){
         cities[i]=new City(state[i].x, state[i].y, state[i].owner);
+        console.log(state[i].owner+" "+cities[i].owner);
     }
     var count=0;
     for (var i=0; i<state.length; i++){
@@ -66,8 +68,8 @@ socket.on('update', function(state){
         }
     }
     roads.length=count;
-    console.log(cities);
-    console.log(roads);
+    //console.log(cities);
+    //console.log(roads);
 });
 
 socket.on('realize_city', function(msg){
@@ -118,7 +120,7 @@ function makeRoad(startX, startY, x, y) {
 }
 
 function draw(){
-    console.log(team);
+    //console.log(team);
     //console.log(cities);
     //console.log(roads);
     ctx.clearRect(0,0,640,640);
@@ -213,22 +215,27 @@ function handleMouseUp(e) {
                 }
             }
         }
-        socket.emit('road_delete', ans);
+        if (ans[0].length != 0) {
+            socket.emit('road_delete', ans);
+        }
         roads.length = count;
         startCity=-1;
         return;
     }
     if (startCity != cities.length) { //start city is old
-        if (startCity.owner != team) { // start city is enemy
+        if (cities[startCity].owner != team) { // start city is enemy
+            console.log('starting at enemy '+startCity);
             startCity = -1;
             return;
         }
         if (endCity == cities.length) { // end city is new
+            console.log('from exist to new');
             cities[cities.length] = new City(x, y, team);
             socket.emit('new_city', [x, y, cities.length-1]);
         }
     } else { // start city is new
-        if (endCity.owner != team) { // end city is enemy with new city
+        if (cities[endCity].owner != team) { // end city is enemy with new city
+            console.log('from new to enemy');
             startCity = -1;
             return;
         }
