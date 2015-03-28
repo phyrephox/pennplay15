@@ -40,6 +40,10 @@ function graph() {
 			console.log("EDGE ALREADY EXISTS. AW DANG.");
 			return false;
 		}
+		if (u == v) {
+			console.log("AINT NO SELF LOOPS IN MY HOUSE.");
+			return false;
+		}
 		this.vertices[u].addOutEdge(v, weight);
 		this.vertices[v].addInEdge(u, weight);
 		return true;
@@ -55,7 +59,7 @@ function graph() {
 
 	//returns true if there is an edge from node u to v.
 	//		false otherwise.
-	//TODO
+	//
 	this.hasEdge = function(u, v) {
 		if (!this.nodeExists(u)) {
 			console.log("hasEdge -- no vertex at " + u);
