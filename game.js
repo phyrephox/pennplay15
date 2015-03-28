@@ -33,7 +33,7 @@ function game() {
 			}
 
 			g.updateNodes();
-			callback(that.getUpdate());
+			callback(that.getState());
 			time = now;
 		}
 	}

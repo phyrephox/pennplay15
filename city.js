@@ -1,5 +1,11 @@
-function City(xPos,yPos, owner){
+function City(xPos, yPos, owner){
     this.x=xPos;
+    if (this.x<0){
+        this.x+=1000;
+    }
+    if (this.x>640){
+        this.x-=1000;
+    }
     this.y=yPos;
     this.rank;
     this.rankA;
@@ -23,8 +29,15 @@ function City(xPos,yPos, owner){
         if (xDraw>640){
             xDraw-=1000;
         }
+        ctx.beginPath();
         ctx.moveTo(xDraw, this.y);
         ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
+        if (this.owner == 1) {
+            ctx.fillStyle = "#ff0000";
+        } else {
+            ctx.fillStyle = "#0000ff";
+        }
+        ctx.fill();
     }
     
     this.contains = function(x, y) {

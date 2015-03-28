@@ -4,10 +4,18 @@ function Road(ax, ay, bx, by){
     this.x2=bx;
     this.y2=by;
     if (this.x0 == this.x2) {
-        this.x2 +=.01;
+        if (this.y0<this.y2){
+            this.x2 += 0.01;
+        } else {
+            this.x0 += 0.01;
+        }
     }
     if (this.y0 == this.y2) {
-        this.y2 +=.01;
+        if (this.x0<this.x2) {
+            this.y2 += 0.01;
+        } else {
+            this.y0 += 0.01;
+        }
     }
     var dx = this.x2-this.x0;
     var dy = this.y2-this.y0;
@@ -23,6 +31,7 @@ function Road(ax, ay, bx, by){
     this.x1 = xMid + this.dist/4/distT*(xTemp-xMid);
     this.y1 = yMid + this.dist/4/distT*(yTemp-yMid);
 
+    var count = 0;
     this.draw = function(ctx, offset){
         ctx.moveTo(this.x0+offset,this.y0);
         for (var i=0;i<100;i++){
@@ -37,8 +46,14 @@ function Road(ax, ay, bx, by){
                 xDraw-=1000;
             }
             ctx.moveTo(xDraw,y);
-            ctx.arc(xDraw,y,3*t,0,2*Math.PI);
+            if (i%10==count) {
+                ctx.arc(xDraw, y, 5*t, 0, 2*Math.PI);
+            } else {
+                ctx.arc(xDraw, y, 3*t, 0, 2*Math.PI);
+            }
         }
+        count++;
+        count%=10;
     }
     
     function crossProd(x1, y1, x2,y2) {

@@ -7,9 +7,9 @@ window.addEventListener('keyup', keyRelease, false);
 var ctx = document.getElementById('field').getContext('2d');
 var roads = [];
 var cities = [];
-cities[0] = new City(50,50);
-cities[1] = new City(450,450);
-roads[0] = new Road(cities[0].x,cities[0].y,cities[1].x, cities[1].y);
+cities[0] = new City(250,320,1);
+cities[1] = new City(750,320,2);
+//roads[0] = new Road(cities[0].x,cities[0].y,cities[1].x, cities[1].y);
 
 var offset = 0;
 var scroll = 0;
@@ -19,7 +19,7 @@ var startY = 0;
 
 var socket = io();
 socket.on('new-state', function(state){
-    /*roads=[];
+    roads=[];
     var count;
     for (var i=0; i<state.length; i++){
         for (var j=0; j<state[i].outEdges.length; j++){
@@ -27,8 +27,26 @@ socket.on('new-state', function(state){
                 roads[count] = new Road(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
             }
         }
-        cities[i]=new City(state.x, state.y, state.owner);
-    }*/
+        cities[i]=new City(state[i].x, state[i].y, state.owner[i]);
+    }
+});
+
+socket.on('update', function(state){
+    console.log(state);
+    roads=[];
+    for (var i=0; i<state.length; i++){
+        cities[i]=new City(state[i].x, state[i].y, state[i].owner);
+    }
+    var count;
+    for (var i=0; i<state.length; i++){
+        console.log(cities[i]);
+        for (var j=0; j<state[i].outEdges.length; j++){
+            if (state[i].inEdges[j]!=-1){
+                roads[count] = new Road(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            }
+        }
+    }
+    console.log(cities);
 });
 
 function draw(){
@@ -43,15 +61,14 @@ function draw(){
         offset -= 1000;
     }
     ctx.beginPath();
-    for (var i=0;i<cities.length;i++){
-        cities[i].draw(ctx, offset);
-    }
-    ctx.fill();
-    ctx.beginPath();
+    ctx.fillStyle = "#000000";
     for (var i=0;i<roads.length;i++){
         roads[i].draw(ctx, offset);
     }
     ctx.fill();
+    for (var i=0;i<cities.length;i++){
+        cities[i].draw(ctx, offset);
+    }
 }
 
 function handleMouseDown(e) {
@@ -113,20 +130,20 @@ function handleMouseUp(e) {
     if(endCity==cities.length) {
         if (startCity!=-1){
             cities[cities.length] = new City(x,y);
-            socket.emit('new_city',[x, y, cities.length]);
+            socket.emit('new_city',[x, y, cities.length-1]);
         }
     }else {
         if(startCity==cities.length){
             cities[cities.length] = new City(startX, startY);
-            socket.emit('new_city',[startX, startY, cities.length]);
+            socket.emit('new_city',[startX, startY, cities.length-1]);
         }
     }
     var distA = Math.abs(startX-x);
     var distB = Math.abs(startX-x+1000);
     var distC = Math.abs(startX-x-1000);
-    if (distA<distB && distA<distC) {
+    if (distA<=distB && distA<=distC) {
         roads[roads.length] = new Road(startX,startY, x, y);
-    } else if (distB<distA && distB<distC){
+    } else if (distB<=distA && distB<=distC){
         roads[roads.length] = new Road(startX,startY, x-1000, y);
     } else {
         roads[roads.length] = new Road(startX,startY, x+1000, y);
