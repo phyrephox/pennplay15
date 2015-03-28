@@ -23,13 +23,21 @@ function Road(ax, ay, bx, by){
     this.x1 = xMid + dist/4/distT*(xTemp-xMid);
     this.y1 = yMid + dist/4/distT*(yTemp-yMid);
 
-    this.draw = function(ctx){
-        ctx.moveTo(this.x0,this.y0);
+    this.draw = function(ctx, offset){
+        ctx.moveTo(this.x0+offset,this.y0);
         for (var i=0;i<100;i++){
             var t=i/100.0;
             var x=(1-t)*((1-t)*this.x0+t*this.x1)+t*((1-t)*this.x1+t*this.x2);
             var y=(1-t)*((1-t)*this.y0+t*this.y1)+t*((1-t)*this.y1+t*this.y2);
-            ctx.lineTo(x,y);
+            var xDraw = x + offset;
+            if (xDraw<0){
+                xDraw+=1000;
+            }
+            if (xDraw>640){
+                xDraw-=1000;
+            }
+            ctx.moveTo(xDraw,y);
+            ctx.arc(xDraw,y,3,0,2*Math.PI);
         }
     }
 }
