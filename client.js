@@ -189,7 +189,6 @@ function handleMouseUp(e) {
         var count = 0;
         var sendCount=0;
         var ans = [];
-        ans[1] = [startX, startY, x, y];
         for (var i=0; i<roads.length; i++){
             if (!roads[i].cross(startX, startY, x, y)) {
                 roads[count] = roads[i];
@@ -204,9 +203,9 @@ function handleMouseUp(e) {
                         to = j;
                     }
                 }
-                if (from.owner == owner) {
+                if (cities[from].owner == team) {
                     //socket.emit('road_delete', [from, to]);
-                    ans[0][sendCount] = [from, to];
+                    ans[sendCount] = [from, to];
                     sendCount++;
                     console.log(from+" "+to);
                 } else {
@@ -215,8 +214,8 @@ function handleMouseUp(e) {
                 }
             }
         }
-        if (ans[0].length != 0) {
-            socket.emit('road_delete', ans);
+        if (ans.length != 0) {
+            socket.emit('road_delete', [ans,[startX, startY, x, y]]);
         }
         roads.length = count;
         startCity=-1;
