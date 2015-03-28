@@ -48,11 +48,11 @@ socket.on('new-state', function(state){
 });
 
 socket.on('update', function(state){
-    console.log(state);
+    //console.log(state);
     roads=[];
     for (var i=0; i<state.length; i++){
         cities[i]=new City(state[i].x, state[i].y, state[i].owner);
-        console.log(state[i].owner+" "+cities[i].owner);
+        //console.log(state[i].owner+" "+cities[i].owner);
     }
     var count=0;
     for (var i=0; i<state.length; i++){
