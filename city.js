@@ -32,7 +32,7 @@ function City(xPos, yPos, owner){
         ctx.beginPath();
         ctx.moveTo(xDraw, this.y);
         ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
-        if (this.owner == 1) {
+        if (this.owner == 0) {
             ctx.fillStyle = "#ff0000";
         } else {
             ctx.fillStyle = "#0000ff";
