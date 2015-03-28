@@ -32,7 +32,7 @@ socket.on('new-state', function(state){
 });
 
 function draw(){
-    console.log(cities);
+    //console.log(cities);
     ctx.clearRect(0,0,640,640);
     offset+=scroll;
     if (offset < 0) {

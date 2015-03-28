@@ -55,14 +55,17 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new_city', function(c) {
+		console.log(socket.game.newVertex);
+		console.log(socket.emit);
 		socket.game.newVertex(c[0], c[1], c[2], function() {
-			socket.emit('new-state', socket.game.getState(),
+			console.log("state being reset.");
+			socket.emit('new-state', socket.game.getState());
 		});
-	}
+	});
 
 	socket.on('new_road', function(road) {
-		socket.game.newEdge(road[0], road[1], road[2], weight);
-	}
+		socket.game.newEdge(road[0], road[1], road[2]);
+	});
 
 
 
