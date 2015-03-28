@@ -82,7 +82,9 @@ function graph() {
 		if (this.hasEdge(u, v)) {
 			this.vertices[u].outEdges[v] = -1;
 			this.vertices[v].inEdges[u] = -1;
+			return true;
 		}
+		return false;
 	}
 }
 

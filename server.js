@@ -83,7 +83,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new_road', function(road) {
-		if (socket.game.newEdge(road[0], road[1])) {
+		if (socket.game.newEdge(road[0], road[1], road[2])) {
 			firstSocket.emit('realize_road', [road[0], road[1]]);
 			secondSocket.emit('realize_road', [road[0], road[1]]);
 		} else {
