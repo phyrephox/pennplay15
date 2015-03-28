@@ -40,28 +40,29 @@ function Road(ax, ay, bx, by){
             ctx.arc(xDraw,y,3*t,0,2*Math.PI);
         }
     }
-    this.cross = function(x2, y2, x3, y3){
-        var x0=this.x0;
-        var x1=this.x2;
-        var y0=this.y0;
-        var y1=this.y2;
-        var xInt = ((x0*y1-y0*x1)*(x2-x3)-(x0-x1)*(x2*y3-y2*x3))/((x0-x1)*(y2-y3)-(y0-y1)*(x2-x3));
-        var count = 0;
-        if (xInt<x0 && xInt>x1){
-            count++;
-        } else if(xInt>x0 && xInt<x1){
-            count++;
-        }
-        if (xInt<x2 && xInt>x3){
-            count++;
-        } else if(xInt>x2 && xInt<x3){
-            count++;
-        }
-        console.log(count);
-        return xInt;
-        if (count == 2){
+    
+    function crossProd(x1, y1, x2,y2) {
+        return x1*x2+y1*y2;
+    }
+    
+    this.cross = function(Cx, Cy, Dx, Dy){
+        var Ax=this.x0;
+        var Bx=this.x2;
+        var Ay=this.y0;
+        var By=this.y2;
+        
+        var o1 = orientation(Ax, Ay, Bx, By, Cx, Cy);
+        var o2 = orientation(Ax, Ay, Bx, By, Dx, Dy);
+        var o3 = orientation(Cx, Cy, Dx, Dy, Ax, Ay);
+        var o4 = orientation(Cx, Cy, Dx, Dy, Bx, By);
+        if (o1 != o2 && o3 != o4) {
             return true;
         }
         return false;
+    }
+    function orientation(x1, y1, x2, y2, x3, y3) {
+        var val = (y2-y1)*(x3-x2)-(x2-x1)*(y3-y2);
+        if (val == 0) return 0;
+        return (val>0)?1:2;
     }
  }

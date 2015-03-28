@@ -98,9 +98,16 @@ function handleMouseUp(e) {
     }
     console.log(startCity+" "+endCity);
     if (startCity==endCity) {
+        var count = 0;
+        var newRoads = [];
         for (var i=0; i<roads.length; i++){
-            console.log(i+" "+roads[i].cross(startX, startY, x, y));
+            if (!roads[i].cross(startX, startY, x, y)) {
+                newRoads[count] = roads[i];
+                count++;
+            }
         }
+        roads = newRoads;
+        startCity=-1;
         return;
     }
     if(endCity==cities.length) {
