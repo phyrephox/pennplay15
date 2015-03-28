@@ -1,25 +1,6 @@
 var vertex = require('./vertex');
 
 function graph() {
-
-	//defines edges in the graph.
-	this.edge = function(u, v, weight) {
-		this.v;
-		this.u;
-		this.weight;
-		this.equals = function(o) {
-			if (o == null) {
-				return false;
-			}
-			if (this.v = o.v) {
-				if (this.u = o.u) {
-					return true;
-				}
-			}
-			return false;
-		}
-	}
-
 	this.vertices = [];
 
 	//adds edge between two nodes in graph. 
