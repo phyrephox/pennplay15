@@ -46,8 +46,8 @@ function game() {
 		return g.getVertices();
 	}
 
-	this.newVertex = function(x, y, index, reset) {
-		realIndex = g.addVertex(x,y);
+	this.newVertex = function(x, y, index, owner, reset) {
+		realIndex = g.addVertex(x, y, owner);
 		console.log("real=", realIndex, " fake=", index); 
 		console.log(g.getVertices());
 		if (index != realIndex) {

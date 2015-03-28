@@ -23,6 +23,7 @@ io.on('connection', function(socket) {
 	console.log('a user connected.');
 	socket.emit('onconnected');
 	socket.on('disconnect', function() {
+		lookingFirst = true;
 		console.log('a user disconnected');
 	});
 
@@ -34,10 +35,12 @@ io.on('connection', function(socket) {
 				socket.game = new game();
 				console.log(socket.game);
 				firstSocket = socket;
+				firstSocket.uuid = uuid.v1();
 			} else {
 				lookingFirst = true;
 				console.log("old" + firstSocket);
 				socket.game = firstSocket.game;
+				socket.uuid = uuid.v1();
 				socket.game.start(function(state) {
 					socket.emit('update', state);
 					firstSocket.emit('update', state);
@@ -55,9 +58,18 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('new_city', function(c) {
+		console.log("current uuid:" + socket.uuid);
+		console.log("firstScoketID:" + firstSocket.uuid);
+		if (socket.uuid == firstSocket.uuid) {
+			var owner = 0;
+		} else {
+			var owner = 1;
+		}
+
 		console.log(socket.game.newVertex);
 		console.log(socket.emit);
-		socket.game.newVertex(c[0], c[1], c[2], function() {
+		socket.game.newVertex(c[0], c[1], c[2], 
+					owner, function() {
 			console.log("state being reset.");
 			socket.emit('new-state', socket.game.getState());
 		});
