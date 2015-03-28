@@ -13,7 +13,6 @@ function City(xPos,yPos){
     
     this.draw = function(ctx, offset){
         var xDraw = this.x+offset;
-        ctx.moveTo(xDraw, this.y);
         ctx.arc(xDraw, this.y, 50, 0, 2*Math.PI);
         if (xDraw<0){
             xDraw+=1000;

@@ -38,6 +38,8 @@ function Road(ax, ay, bx, by){
             }
             ctx.moveTo(xDraw,y);
             ctx.arc(xDraw,y,3,0,2*Math.PI);
+            xPrev=xDraw;
+            yPrev=y;
         }
     }
 }
