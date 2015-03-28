@@ -74,6 +74,15 @@ function graph() {
 	this.getSize = function() { 
 		return this.vertices.length;
 	}
+	
+	//deletes an edge from G.
+	//returns true if there was an edge between u and v, 
+	this.deleteEdge(u, v) {
+		if (hasEdge(u, v)) {
+			vertices[u].outEdges[v] = -1;
+			vertices[v].inEdges[u] = -1;
+		}
+	}
 }
 
 module.exports = graph;

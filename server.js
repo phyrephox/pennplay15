@@ -19,7 +19,10 @@ app.get('/cookie', function(req, res, err) {
 
 lookingFirst = true;
 firstSocket = null;
+secondSocket = null;
+
 io.on('connection', function(socket) {
+	//firstSocket = null;
 	console.log('a user connected.');
 	socket.emit('onconnected');
 	socket.on('disconnect', function() {
@@ -41,13 +44,14 @@ io.on('connection', function(socket) {
 				console.log("old" + firstSocket);
 				socket.game = firstSocket.game;
 				socket.uuid = uuid.v1();
+				secondSocket = socket;
 				socket.game.start(function(state) {
 					socket.emit('update', state);
 					firstSocket.emit('update', state);
 				});
 				console.log('second' + socket.game);
-				socket.emit('found');
-				firstSocket.emit('found');
+				socket.emit('found', 1);
+				firstSocket.emit('found', 0);
 			}
 		};
 		newPlayer(socket);
@@ -68,18 +72,40 @@ io.on('connection', function(socket) {
 
 		console.log(socket.game.newVertex);
 		console.log(socket.emit);
-		socket.game.newVertex(c[0], c[1], c[2], 
+		var realIndex = socket.game.newVertex(c[0], c[1], c[2], 
 					owner, function() {
 			console.log("state being reset.");
 			socket.emit('new-state', socket.game.getState());
 		});
+		firstSocket.emit("realize_city", [c[0], c[1], realIndex, owner]);
+		secondSocket.emit("realize_city", [c[0], c[1], realIndex, owner]);
+
 	});
 
 	socket.on('new_road', function(road) {
-		socket.game.newEdge(road[0], road[1], road[2]);
+		if (socket.game.newEdge(road[0], road[1])) {
+			firstSocket.emit('realize_road', [road[0], road[1]]);
+			secondSocket.emit('realize_road', road[0], road[1]]);
+		} else {
+			console.log('client tried to make an illegal road.');
+			socket.emit('new-state', socket.game.getState());
+		}
 	});
 
+	socket.on('road_delete', function(array2D) {
 
+		if (socket.game.deleteEdge(array2D[0])) {
+			firstSocket.emit('realize_delete', array2D[1]);
+			secondSocket.emit('realize_delete', array2D[1]);
+		} else {
+			console.log('client tried illegal delete.');
+			'new-state', socket.game.getState());
+		}
+	}
+
+	socket.on('client_confused', function() {
+		socket.emit('new-state', socket.game.getState());
+	}
 
 //	socket.on('game-event'), function() {
 //		console.log('game event.');
