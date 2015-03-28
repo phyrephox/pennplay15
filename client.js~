@@ -80,7 +80,7 @@ function handleMouseUp(e) {
     }
     console.log(startCity+" "+endCity);
     if (startCity==endCity) {
-        return;
+        break;
     }
     if(endCity==cities.length) {
         if (startCity!=-1){
