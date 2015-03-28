@@ -78,9 +78,10 @@ function graph() {
 	//deletes an edge from G.
 	//returns true if there was an edge between u and v, 
 	this.deleteEdge = function(u, v) {
-		if (hasEdge(u, v)) {
-			vertices[u].outEdges[v] = -1;
-			vertices[v].inEdges[u] = -1;
+		console.log("delete-", u, "   ", this.vertices);
+		if (this.hasEdge(u, v)) {
+			this.vertices[u].outEdges[v] = -1;
+			this.vertices[v].inEdges[u] = -1;
 		}
 	}
 }

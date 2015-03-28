@@ -20,10 +20,7 @@ function game() {
 	
 	this.gameloop = function() {
 		var now = new Date().getTime();
-		console.log("now" + now);
-		console.log("time" + time);
 		if (now - time > 66) {
-			console.log(now - time);
 			for (var i = 0; i < newVertices.length; i++) {
 				g.addVertex(newVertices[i].x, newVertices[i].y);
 			}
@@ -72,7 +69,7 @@ function game() {
 	this.deleteEdge = function(arrayUV) {
 		var OK = true;
 		for (var i = 0; i < arrayUV.length; i++) {
-			if (!g.deleteEdge(u,v)) {
+			if (!g.deleteEdge(arrayUV[i][0], arrayUV[i][1])) {
 				OK = false;
 			}
 		}
