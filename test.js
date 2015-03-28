@@ -10,7 +10,7 @@ console.log(g.addEdge(0, 2, 10));
 console.log(g.addEdge(1, 2, 10));
 console.log(g.addEdge(3, 0, 10));
 //console.log(g.getVertices());
-console.log(g.getVertices()[0].getOutEdges());
+console.log(g.getVertices()[0]);
 console.log(g.getVertices()[1].getOutEdges());
 console.log(g.getVertices()[2].getOutEdges());
 console.log(g.getVertices()[3].getOutEdges());
