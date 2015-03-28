@@ -85,7 +85,7 @@ io.on('connection', function(socket) {
 	socket.on('new_road', function(road) {
 		if (socket.game.newEdge(road[0], road[1])) {
 			firstSocket.emit('realize_road', [road[0], road[1]]);
-			secondSocket.emit('realize_road', road[0], road[1]]);
+			secondSocket.emit('realize_road', [road[0], road[1]]);
 		} else {
 			console.log('client tried to make an illegal road.');
 			socket.emit('new-state', socket.game.getState());
@@ -99,13 +99,13 @@ io.on('connection', function(socket) {
 			secondSocket.emit('realize_delete', array2D[1]);
 		} else {
 			console.log('client tried illegal delete.');
-			'new-state', socket.game.getState());
+			socket.emit('new-state', socket.game.getState());
 		}
-	}
+	});
 
 	socket.on('client_confused', function() {
 		socket.emit('new-state', socket.game.getState());
-	}
+	});
 
 //	socket.on('game-event'), function() {
 //		console.log('game event.');

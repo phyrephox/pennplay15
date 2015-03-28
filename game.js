@@ -60,7 +60,7 @@ function game() {
 
 	//adds edge to G. 
 	this.newEdge = function(u, v, weight) {
-		if (g.addEdge(u, v, weight) {
+		if (g.addEdge(u, v, weight)) {
 			console.log("new edge!");
 			return true;
 		}
@@ -69,8 +69,7 @@ function game() {
 
 	//deletes edge from G. returns true if there was an edge
 	//between u and v. False otherwise.
-	this.deleteEdge(arrayUV) {
-
+	this.deleteEdge = function(arrayUV) {
 		var OK = true;
 		for (var i = 0; i < arrayUV.length; i++) {
 			if (!g.deleteEdge(u,v)) {
