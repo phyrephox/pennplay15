@@ -19,7 +19,7 @@ var startY = 0;
 
 var socket = io();
 socket.on('new-state', function(state){
-    roads=[];
+    /*roads=[];
     var count;
     for (var i=0; i<state.length; i++){
         for (var j=0; j<state[i].outEdges.length; j++){
@@ -27,8 +27,8 @@ socket.on('new-state', function(state){
                 roads[count] = new Road(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
             }
         }
-        cities[i]=new City(state.x, state.y);
-    }
+        cities[i]=new City(state.x, state.y, state.owner);
+    }*/
 });
 
 function draw(){
@@ -118,7 +118,7 @@ function handleMouseUp(e) {
     } else {
         roads[roads.length] = new Road(startX,startY, x+1000, y);
     }
-    socket.emit('new_road', [startCity, endCity]);
+    socket.emit('new_road', [startCity, endCity, roads[roads.length-1].dist]);
     /*if (startCity == -1) {
     } else if (startCity != cities.length) {
         cities[cities.length] = new City(x,y);

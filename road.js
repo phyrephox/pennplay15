@@ -11,7 +11,7 @@ function Road(ax, ay, bx, by){
     }
     var dx = this.x2-this.x0;
     var dy = this.y2-this.y0;
-    var dist = Math.sqrt(dx*dx+dy*dy);
+    this.dist = Math.sqrt(dx*dx+dy*dy);
     
     var xMid = (this.x0+this.x2)/2;
     var yMid = (this.y0+this.y2)/2;
@@ -20,8 +20,8 @@ function Road(ax, ay, bx, by){
     var distT = Math.sqrt((xTemp-xMid)*(xTemp-xMid)+(yTemp-yMid)*(yTemp-yMid));
     //console.log(Math.sqrt(dx*dx+dy*dy));
     
-    this.x1 = xMid + dist/4/distT*(xTemp-xMid);
-    this.y1 = yMid + dist/4/distT*(yTemp-yMid);
+    this.x1 = xMid + this.dist/4/distT*(xTemp-xMid);
+    this.y1 = yMid + this.dist/4/distT*(yTemp-yMid);
 
     this.draw = function(ctx, offset){
         ctx.moveTo(this.x0+offset,this.y0);

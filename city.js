@@ -1,10 +1,10 @@
-function City(xPos,yPos){
+function City(xPos,yPos, owner){
     this.x=xPos;
     this.y=yPos;
     this.rank;
     this.rankA;
     this.rankB;
-    this.owner;
+    this.owner=owner;
     var rad=15;
     
     this.updateRank = function(rankA, rankB) {
