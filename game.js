@@ -48,13 +48,15 @@ function game() {
 
 	this.newVertex = function(x, y, index, reset) {
 		realIndex = g.addVertex(x,y);
-		console.log("real=", realIndex, " fake=", index);  
+		console.log("real=", realIndex, " fake=", index); 
+		console.log(g.getVertices());
 		if (index != realIndex) {
 			reset(); //calls function in server to send reset state to client.
 		}
 	}
 
 	this.newEdge = function(u, v, weight) {
+		console.log("new edge!");
 		g.addEdge(u, v, weight);
 	}
 
