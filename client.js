@@ -7,8 +7,8 @@ window.addEventListener('keyup', keyRelease, false);
 var ctx = document.getElementById('field').getContext('2d');
 var roads = [];
 var cities = [];
-cities[0] = new City(250,320,1);
-cities[1] = new City(750,320,2);
+cities[0] = new City(250,320,0);
+cities[1] = new City(750,320,1);
 //roads[0] = new Road(cities[0].x,cities[0].y,cities[1].x, cities[1].y);
 
 var offset = 0;
@@ -19,16 +19,36 @@ var startY = 0;
 
 var socket = io();
 socket.on('new-state', function(state){
+    console.log(state);
     roads=[];
-    var count;
+    for (var i=0; i<state.length; i++){
+        cities[i]=new City(state[i].x, state[i].y, state[i].owner);
+    }
+    var count=0;
     for (var i=0; i<state.length; i++){
         for (var j=0; j<state[i].outEdges.length; j++){
-            if (state[i].inEdges[j]!=-1){
-                roads[count] = new Road(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            if (state[i].outEdges[j]!=-1){
+                var startX = cities[i].x;
+                var startY = cities[i].y;
+                var x = cities[j].x;
+                var y = cities[j].y;
+                var distA = Math.abs(startX-x);
+                var distB = Math.abs(startX-x+1000);
+                var distC = Math.abs(startX-x-1000);
+                if (distA<=distB && distA<=distC) {
+                    roads[count] = new Road(startX,startY, x, y);
+                } else if (distB<=distA && distB<=distC){
+                    roads[count] = new Road(startX,startY, x-1000, y);
+                } else {
+                    roads[count] = new Road(startX,startY, x+1000, y);
+                }
+                count++;
             }
         }
-        cities[i]=new City(state[i].x, state[i].y, state.owner[i]);
     }
+    roads.length=count;
+    console.log(cities);
+    console.log(roads);
 });
 
 socket.on('update', function(state){
@@ -37,16 +57,31 @@ socket.on('update', function(state){
     for (var i=0; i<state.length; i++){
         cities[i]=new City(state[i].x, state[i].y, state[i].owner);
     }
-    var count;
+    var count=0;
     for (var i=0; i<state.length; i++){
-        console.log(cities[i]);
         for (var j=0; j<state[i].outEdges.length; j++){
-            if (state[i].inEdges[j]!=-1){
-                roads[count] = new Road(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            if (state[i].outEdges[j]!=-1){
+                var startX = cities[i].x;
+                var startY = cities[i].y;
+                var x = cities[j].x;
+                var y = cities[j].y;
+                var distA = Math.abs(startX-x);
+                var distB = Math.abs(startX-x+1000);
+                var distC = Math.abs(startX-x-1000);
+                if (distA<=distB && distA<=distC) {
+                    roads[count] = new Road(startX,startY, x, y);
+                } else if (distB<=distA && distB<=distC){
+                    roads[count] = new Road(startX,startY, x-1000, y);
+                } else {
+                    roads[count] = new Road(startX,startY, x+1000, y);
+                }
+                count++;
             }
         }
     }
+    roads.length=count;
     console.log(cities);
+    console.log(roads);
 });
 
 function draw(){
@@ -121,6 +156,18 @@ function handleMouseUp(e) {
             if (!roads[i].cross(startX, startY, x, y)) {
                 newRoads[count] = roads[i];
                 count++;
+            } else {
+                var from = 0;
+                var to = 0;
+                for (var j=0;j<cities.length;j++){
+                    if (cities[j].contains(roads[j].x0, roads[j].y0)) {
+                        from = j;
+                    } else if (cities[j].contains(roads[j].x2, roads[j].y2)) {
+                        to = j;
+                    }
+                }
+                socket.emit('road-delete', [from, to]);
+                console.log(from+" "+to);
             }
         }
         roads = newRoads;
@@ -149,20 +196,6 @@ function handleMouseUp(e) {
         roads[roads.length] = new Road(startX,startY, x+1000, y);
     }
     socket.emit('new_road', [startCity, endCity, roads[roads.length-1].dist]);
-    /*if (startCity == -1) {
-    } else if (startCity != cities.length) {
-        cities[cities.length] = new City(x,y);
-        var distA = Math.abs(startX-x);
-        var distB = Math.abs(startX-x+1000);
-        var distC = Math.abs(startX-x-1000);
-        if (distA<distB && distA<distC) {
-            roads[roads.length] = new Road(startX,startY, x, y);
-        } else if (distB<distA && distB<distC){
-            roads[roads.length] = new Road(startX,startY, x-1000, y);
-        } else {
-            roads[roads.length] = new Road(startX,startY, x+1000, y);
-        }
-    }*/
     startCity=-1;
 }
 
