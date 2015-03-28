@@ -1,3 +1,6 @@
+var mus = document.getElementById('music_loop');
+mus.playbackRate = 1;
+
 var ctx = document.getElementById('field').getContext('2d');
 var roads = [];
 var cities = [];
@@ -16,7 +19,3 @@ for (var i=0;i<roads.length;i++){
     roads[i].draw(ctx);
 }
 ctx.stroke();
-
-var mus = document.getElementById('music_loop');
-mus.playbackRate = 1;
-//mus.play();
