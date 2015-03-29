@@ -22,8 +22,8 @@ function game() {
 		//		this.gameloop();
 
 		callback = cb;
-		g.addVertex(250, 320, 0);
-		g.addVertex(750, 320, 1);
+		g.addVertex(500, 320, 0);
+		g.addVertex(1500, 320, 1);
 		console.log(callback);
 		setInterval(this.gameloop,50);
 	}
@@ -53,7 +53,7 @@ function game() {
 	this.updatePower = function() {
 		var currentTime = new Date().getTime();
 		var timeBonus = 0;
-		if (currentTime - costTime > 100) {
+		if (currentTime - costTime > 1000) {
 			timeBonus = 1;
 			costTime = currentTime;
 		}
@@ -80,17 +80,18 @@ function game() {
 
 	//adds a new vertex to G. Returns the index of the vertex added.
 	this.newVertex = function(x, y, index, owner, reset) {
+		if (owner == 0) {
+			powerCounterNode0 = powerCounterNode0 +  EDGE_COST;
+		}
+		if (owner == 1) {
+			powerCounterNode1 = powerCounterNode1 +  EDGE_COST;
+		}
+
 		realIndex = g.addVertex(x, y, owner);
 		console.log("real=", realIndex, " fake=", index); 
 		console.log(g.getVertices());
 		if (index != realIndex) {
 			reset(); //calls function in server to send reset state to client.
-		}
-		if (owner == 0) {
-			powerCounterNode0 += EDGE_COST;
-		}
-		if (owner == 1) {
-			powerCounterNode0 += EDGE_COST;
 		}
 		return realIndex;
 	}
