@@ -29,10 +29,12 @@ function City(xPos, yPos, owner){
         ctx.beginPath();
         ctx.lineWidth = 4;
         ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
+        var color = 255*(this.owner==0?this.rank1:this.rank2)/this.rank;
+        console.log(color);
         if (this.owner == 0) {
-            ctx.strokeStyle = "#00ff00";
+            ctx.strokeStyle = 'rgb(0,0,'+color+')';//"#0000ff";
         } else {
-            ctx.strokeStyle = "#0000ff";
+            ctx.strokeStyle = 'rgb(0,'+color+',0)';//"#00ff00";
         }
         ctx.stroke();
     }
