@@ -1,5 +1,9 @@
 var mus = document.getElementById('music_loop');
-mus.playbackRate = 1;
+var musI = document.getElementById('music_intro');
+musI.play();
+//mus.play();
+mus.loop=true;
+musI.addEventListener('ended', function(){mus.play()}, false);
 
 window.addEventListener('keydown', keyPress, false);
 window.addEventListener('keyup', keyRelease, false);
@@ -56,28 +60,7 @@ socket.on('new-state', function(state){
 });
 
 socket.on('update', function(state){
-    //console.log(state);
-    /*roads=[];
-    for (var i=0; i<state.length; i++){
-        cities[i]=new City(state[i].x, state[i].y, state[i].owner);
-        //console.log(state[i].owner+" "+cities[i].owner);
-    }
-    var count=0;
-    for (var i=0; i<state.length; i++){
-        for (var j=0; j<state[i].outEdges.length; j++){
-            if (state[i].outEdges[j]!=-1){
-                var startX = cities[i].x;
-                var startY = cities[i].y;
-                var x = cities[j].x;
-                var y = cities[j].y;
-                roads[count] = makeRoad(startX, startY, x, y);
-                count++;
-            }
-        }
-    }
-    roads.length=count;
-    //console.log(cities);
-    //console.log(roads);*/
+    console.log(state);
 });
 
 socket.on('realize_city', function(msg){

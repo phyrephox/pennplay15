@@ -11,13 +11,15 @@ function City(xPos, yPos, owner){
     this.rankA;
     this.rankB;
     this.owner=owner;
-    var rad=15;
+    var rad=25;
     
     this.updateRank = function(rankA, rankB) {
         this.rankA=rankA;
         this.rankB=rankB;
         this.rank=rankA+rankB;
     }
+    var img = new Image;
+    img.src = 'city1.png';
     
     this.draw = function(ctx, offset) {
         var xDraw = this.x+offset;
@@ -29,15 +31,16 @@ function City(xPos, yPos, owner){
         if (xDraw>640){
             xDraw-=1000;
         }
+        ctx.drawImage(img, xDraw-50/2,this.y-35/2, 50, 35);
         ctx.beginPath();
-        ctx.moveTo(xDraw, this.y);
+        ctx.lineWidth = 4;
         ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
         if (this.owner == 0) {
-            ctx.fillStyle = "#ff0000";
+            ctx.strokeStyle = "#00ff00";
         } else {
-            ctx.fillStyle = "#0000ff";
+            ctx.strokeStyle = "#0000ff";
         }
-        ctx.fill();
+        ctx.stroke();
     }
     
     this.contains = function(x, y) {

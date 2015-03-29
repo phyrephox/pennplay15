@@ -26,52 +26,78 @@ function Road(ax, ay, bx, by){
     var xTemp = xMid+(this.x0-this.x2);
     var yTemp = -dx/dy*(xTemp-xMid)+yMid;
     var distT = Math.sqrt((xTemp-xMid)*(xTemp-xMid)+(yTemp-yMid)*(yTemp-yMid));
-    //console.log(Math.sqrt(dx*dx+dy*dy));
     
     this.x1 = xMid + this.dist/4/distT*(xTemp-xMid);
     this.y1 = yMid + this.dist/4/distT*(yTemp-yMid);
-
-    var count = 0;
+    
     var img = new Image;
     img.src = 'road.png';
+    var render = function(width, height, renderFunc) {
+        var buff = document.createElement('canvas');
+        buff.width = width;
+        buff.height = height;
+        renderFunc(buff.getContext('2d'));
+        return buff;
+    }
+    var cached = function(ctx) {
+        ctx.arc(0,0,500,0,2*Math.PI);
+    }
+
+    var count = 0;
+    var calc = false;
+    var can;
     this.draw = function(ctx, offset){
-        ctx.moveTo(this.x0+offset,this.y0);
-        for (var i=0;i<100;i++){
-            var t=i/100.0;
+        if (!calc) {
+            can = document.createElement('canvas');
+            can.width = 1000;
+            can.height = 640,
+            context = can.getContext('2d');
+            for (var i=0;i<100;i++){
+                var t=i/100.0;
+                var x=(1-t)*((1-t)*this.x0+t*this.x1)+t*((1-t)*this.x1+t*this.x2);
+                var y=(1-t)*((1-t)*this.y0+t*this.y1)+t*((1-t)*this.y1+t*this.y2);
+                var xDraw = x;
+                if (xDraw<0){
+                    xDraw+=1000;
+                }
+                if (xDraw>640){
+                    xDraw-=1000;
+                }
+                ctx.moveTo(xDraw,y);
+                var dx = 2*(1-t)*(this.x1-this.x0)+2*t*(this.x2-this.x1);
+                var dy = 2*(1-t)*(this.y1-this.y0)+2*t*(this.y2-this.y1);
+                drawRotatedImage(context, img, xDraw, y, Math.atan2(dy, dx));
+                drawRotatedImage(context, img, xDraw+1000, y, Math.atan2(dy, dx));
+                drawRotatedImage(context, img, xDraw-1000, y, Math.atan2(dy, dx));
+                offsetInternal = xDraw;
+            }
+            calc=true;
+        }
+        ctx.drawImage(can,offset,0);
+        ctx.drawImage(can,offset-1000,0);
+        for (var i=count; i<100; i+=20) {
+            var t=i/100;
             var x=(1-t)*((1-t)*this.x0+t*this.x1)+t*((1-t)*this.x1+t*this.x2);
             var y=(1-t)*((1-t)*this.y0+t*this.y1)+t*((1-t)*this.y1+t*this.y2);
-            var xDraw = x + offset;
-            if (xDraw<0){
-                xDraw+=1000;
-            }
-            if (xDraw>640){
-                xDraw-=1000;
-            }
-            ctx.moveTo(xDraw,y);
-            var dx = 2*(1-t)*(this.x1-this.x0)+2*t*(this.x2-this.x1);
-            var dy = 2*(1-t)*(this.y1-this.y0)+2*t*(this.y2-this.y1);
-            drawRotatedImage(ctx, img, xDraw, y, Math.atan2(dy, dx),i%20==Math.floor(count));
-            /*if (i%10==count) {
-                ctx.arc(xDraw, y, 5*t, 0, 2*Math.PI);
-            } else {
-                ctx.arc(xDraw, y, 3*t, 0, 2*Math.PI);
-            }*/
-            
+            ctx.beginPath();
+            ctx.arc(x+offset,y,3,0,2*Math.PI);
+            ctx.arc(x+offset-1000,y,3,0,2*Math.PI);
+            ctx.fill();
         }
-        count+=.5;
+        count+=1;
         count%=20;
     }
     
-    function drawRotatedImage(ctx, image, x, y, angle, wave) { 
+    function drawRotatedImage(ctx, image, x, y, angle){//, wave) { 
 	ctx.save();
 	ctx.translate(x, y);
 	ctx.rotate(angle);
-	if (wave) {
+	//if (wave) {
 	    //ctx.drawImage(image, -(image.width/2*1.5), -(image.height/2*1.5),15,15);
-	    ctx.arc(0,0,3,0,2*Math.PI);
-	} else {
+	    //ctx.arc(0,0,3,0,2*Math.PI);
+	//} else {
 	    ctx.drawImage(image, -(image.width/2), -(image.height/2));
-	}
+	//}
 	ctx.restore(); 
 }
     

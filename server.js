@@ -134,6 +134,9 @@ app.get('/about', function(req, res, err) {
 	res.sendFile(__dirname + '/about.html');
 });
 
+app.get('/city1.png', function(req, res, err) {
+    res.sendFile(__dirname + '/res/city1.png');
+});
 app.get('/road.png', function(req, res, err) {
     res.sendFile(__dirname + '/res/road.png');
 });
