@@ -7,9 +7,11 @@ function game() {
 	var newEdges = [];
 	var that = this;
 	var callback;
-	var powerCounter0 = 0;
+	var powerCounterNode0 = 0;
+	var powerCounterEdge0 = 0;
 	var power0 = 100;
-	var powerCounter1 = 0;
+	var powerCounterNode1 = 0;
+	var powerCounterEdge1 = 0;
 	var power1 = 100;
 	var NODE_COST = 15;
 	var EDGE_COST = 10;
@@ -50,12 +52,13 @@ function game() {
 
 	this.updatePower = function() {
 		var currentTime = new Date().getTime();
+		var timeBonus = 0;
 		if (currentTime - costTime > 100) {
 			timeBonus = 1;
 			costTime = currentTime;
 		}
-		power0 = power0 - powerCounter0 + timeBonus;
-		power1 = power1 - powerCounter1 + timeBonus;
+		power0 = power0 - powerCounterNode0 - powerCounterEdge0  + timeBonus;
+		power1 = power1 - powerCounterNode1 - powerCounterEdge0 + timeBonus;
 
 		if (power0 > 100) {
 			power0 = 100;
@@ -63,7 +66,11 @@ function game() {
 		if (power1 > 100) {
 			power1 = 100;
 		}
-			return [power0, power1]
+		powerCounterNode0 = 0;
+		powerCounterNode1 = 0;
+		PowerCounterEdge0 = 0;
+		powerCounterEdge1 = 0;
+		return [power0, power1];
 	}
 
 	//gets the entire state of the graph.
@@ -79,14 +86,24 @@ function game() {
 		if (index != realIndex) {
 			reset(); //calls function in server to send reset state to client.
 		}
-		powerCounter+= EDGE_COST;
+		if (owner == 0) {
+			powerCounterNode0 += EDGE_COST;
+		}
+		if (owner == 1) {
+			powerCounterNode0 += EDGE_COST;
+		}
 		return realIndex;
 	}
 
 	//adds edge to G. 
-	this.newEdge = function(u, v, weight) {
+	this.newEdge = function(u, v, weight, owner) {
 		if (g.addEdge(u, v, weight)) {
-			powerCounter += EDGE_COST;
+			if (owner == 0) {
+				powerCounterEdge0 += EDGE_COST;
+			} 
+			if (owner == 1) {
+				powerCounterEdge1 += EDGE_COST;
+			}
 			console.log("new edge!");
 			return true;
 		}
