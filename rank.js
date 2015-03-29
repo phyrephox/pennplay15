@@ -2,6 +2,9 @@
 module.exports.rank = function(vertices) {
 	var d = .85;
 	var count = 0;
+	var endgame0 = true;
+	var endgame1 = true;
+
 	for (var i = 0; i < vertices.length; i++) {
 		for (var j = 0; j < vertices[i].outEdges.length; j++) {
 			if (vertices[i].outEdges[j] != -1) {
@@ -32,8 +35,10 @@ module.exports.rank = function(vertices) {
 			} 
 		}
 		if (vertices[i].p1rank > vertices[i].p2rank) {
+			endgame1 = false;
 			vertices[i].owner = 0;
 		} else {
+			endgame0 = false;
 			vertices[i].owner = 1;
 		}	
 		update[i] = [ vertices[i].p1rank, vertices[i].p2rank, vertices[i].totalRank, vertices[i].owner];
@@ -41,8 +46,10 @@ module.exports.rank = function(vertices) {
 	for (var i = 0; i < vertices.length; i++) {
 		vertices[i].nextState();
 	}
-	console.log('  ');
-	console.log(' ');
-	console.log(update);
-	return update;
+//	console.log('  ');
+//	console.log(' ');
+//	console.log(update);
+	var state = [update, [endgame0, endgame1]];
+	
+	return state;
 }
