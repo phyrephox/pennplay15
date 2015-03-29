@@ -67,7 +67,7 @@ function graph() {
 	
 	//calls rankUpdate to update rank. YESH.
 	this.updateNodes = function() {
-		rank.rank(this.vertices);
+		return rank.rank(this.vertices);
 		//r.updateRank(this.vertices);
 	}
 
