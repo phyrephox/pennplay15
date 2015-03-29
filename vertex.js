@@ -24,6 +24,7 @@ function vertex(x, y, owner) {
 
 	this.nextState = function() {
 		this.oldRank = this.totalRank;
+		console.log('old rank : ' + this.oldRank);
 	}
 
 	this.setP1Rank = function(val) {

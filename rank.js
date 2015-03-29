@@ -29,16 +29,17 @@ module.exports.rank = function(vertices) {
 					vertices[i].setP2Rank(vertices[i].p2rank + 
 										(d * vertices[j].oldRank / vertices[j].outDegree));
 				}
-				vertices[i].nextState();
 			} 
 		}
 		if (vertices[i].p1rank > vertices[i].p2rank) {
 			vertices[i].owner = 0;
 		} else {
 			vertices[i].owner = 1;
-		}
-		
+		}	
 		update[i] = [ vertices[i].p1rank, vertices[i].p2rank, vertices[i].totalRank, vertices[i].owner];
+	}
+	for (var i = 0; i < vertices.length; i++) {
+		vertices[i].nextState();
 	}
 	console.log('  ');
 	console.log(' ');
