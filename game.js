@@ -9,12 +9,12 @@ function game() {
 	var callback;
 	var powerCounterNode0 = 0;
 	var powerCounterEdge0 = 0;
-	var power0 = 100;
+	var power0 = 50;
 	var powerCounterNode1 = 0;
 	var powerCounterEdge1 = 0;
-	var power1 = 100;
-	var NODE_COST = 15;
-	var EDGE_COST = 10;
+	var power1 = 50;
+	var NODE_COST = 10;
+	var EDGE_COST = 5;
 	var costTime = new Date().getTime();
 
 	this.start = function(cb) {
@@ -53,12 +53,15 @@ function game() {
 	this.updatePower = function() {
 		var currentTime = new Date().getTime();
 		var timeBonus = 0;
-		if (currentTime - costTime > 1000) {
+		if (currentTime - costTime > 200) {
 			timeBonus = 1;
 			costTime = currentTime;
-		}
+		} 
 		power0 = power0 - powerCounterNode0 - powerCounterEdge0  + timeBonus;
-		power1 = power1 - powerCounterNode1 - powerCounterEdge0 + timeBonus;
+		power1 = power1 - powerCounterNode1 - powerCounterEdge1 + timeBonus;
+
+		console.log("power0 ", power0, "power1 ", power1);
+		console.log("pcN0 ", powerCounterNode0);
 
 		if (power0 > 100) {
 			power0 = 100;
@@ -68,7 +71,7 @@ function game() {
 		}
 		powerCounterNode0 = 0;
 		powerCounterNode1 = 0;
-		PowerCounterEdge0 = 0;
+		powerCounterEdge0 = 0;
 		powerCounterEdge1 = 0;
 		return [power0, power1];
 	}
@@ -81,10 +84,11 @@ function game() {
 	//adds a new vertex to G. Returns the index of the vertex added.
 	this.newVertex = function(x, y, index, owner, reset) {
 		if (owner == 0) {
-			powerCounterNode0 = powerCounterNode0 +  EDGE_COST;
+			powerCounterNode0 = powerCounterNode0 +  NODE_COST;
 		}
 		if (owner == 1) {
-			powerCounterNode1 = powerCounterNode1 +  EDGE_COST;
+			console.log("COSTIN YOU MONEY");
+			powerCounterNode1 = powerCounterNode1 +  NODE_COST;
 		}
 
 		realIndex = g.addVertex(x, y, owner);
