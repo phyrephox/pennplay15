@@ -13,8 +13,8 @@ window.addEventListener('keyup', keyRelease, false);
 var ctx = document.getElementById('field').getContext('2d');
 var roads = [];
 var cities = [];
-cities[0] = new City(250,320,0);
-cities[1] = new City(750,320,1);
+cities[0] = new City(500,320,0);
+cities[1] = new City(1500,320,1);
 
 var offset = 0;
 var scroll = 0;
@@ -37,6 +37,11 @@ socket.on('found', function(msg){
     team = msg;
     console.log(team);
 	socket.emit('playing');
+	if (team == 0) {
+	    offset = -180;
+	} else {
+	    offset = -1180;
+	}
 });
 socket.on('endgame', function(msg){
     if (team == msg) {
@@ -91,6 +96,7 @@ socket.on('realize_city', function(msg){
 });
 
 socket.on('realize_road', function(msg){
+    console.log(msg);
     if (msg[0] >= cities.length || msg[1] >= cities.length) {
         socket.emit('client_confused');
     } else {
@@ -116,14 +122,14 @@ socket.on('realize_delete', function(msg){
 
 function makeRoad(startX, startY, x, y) {
     var distA = Math.abs(startX-x);
-    var distB = Math.abs(startX-x+1000);
-    var distC = Math.abs(startX-x-1000);
+    var distB = Math.abs(startX-x+2000);
+    var distC = Math.abs(startX-x-2000);
     if (distA<=distB && distA<=distC) {
         return new Road(startX,startY, x, y);
     } else if (distB<=distA && distB<=distC){
-        return new Road(startX,startY, x-1000, y);
+        return new Road(startX,startY, x-2000, y);
     } else {
-        return new Road(startX,startY, x+1000, y);
+        return new Road(startX,startY, x+2000, y);
     }
 
 }
@@ -133,14 +139,15 @@ function draw(){
     //console.log(cities);
     //console.log(roads);
     ctx.clearRect(0,0,640,640);
+    ctx.drawImage(bg,2000-offset,0,offset,640,0,0,offset, 640);
     ctx.drawImage(bg,1000-offset,0,offset,640,0,0,offset, 640);
     ctx.drawImage(bg,offset,0);
     offset+=scroll;
     if (offset < 0) {
-        offset += 1000;
+        offset += 2000;
     }
-    if (offset > 1000) {
-        offset -= 1000;
+    if (offset > 2000) {
+        offset -= 2000;
     }
     ctx.beginPath();
     ctx.fillStyle = "#000000";
@@ -171,10 +178,10 @@ function draw(){
 function handleMouseDown(e) {
     var x = e.offsetX-offset;
     if (x<0){
-        x+=1000;
+        x+=2000;
     }
     if (x>640){
-        x-=1000;
+        x-=2000;
     }
     var y = e.offsetY;
     for (var i=0; i<cities.length; i++) {
@@ -193,10 +200,10 @@ function handleMouseDown(e) {
 function handleMouseUp(e) {
     var x = e.offsetX-offset;
     if (x<0){
-        x+=1000;
+        x+=2000;
     }
     if (x>640){
-        x-=1000;
+        x-=2000;
     }
     var y = e.offsetY;
     var endCity=-1;
@@ -216,13 +223,13 @@ function handleMouseUp(e) {
         var sendCount=0;
         var ans = [];
         var dist1 = Math.abs(startX-x);
-        var dist2 = Math.abs(startX-x+1000);
-        var dist3 = Math.abs(startX-x-1000);
+        var dist2 = Math.abs(startX-x+2000);
+        var dist3 = Math.abs(startX-x-2000);
         if (dist1 <= dist2 && dist1 <= dist3);
         else if (dist2 <= dist1 && dist2 <= dist3){
-            startX+=1000;
+            startX+=2000;
         } else {
-            x+=1000;
+            x+=2000;
         }
         console.log(x+" "+startX);
         for (var i=0; i<roads.length; i++){
@@ -261,7 +268,7 @@ function handleMouseUp(e) {
         return;
     }
     var road_temp = makeRoad(startX, startY, x, y);
-    if (road_temp.dist>200) {
+    if (road_temp.dist>400) {
         startCity=-1;
         return;
     }

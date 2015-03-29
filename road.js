@@ -49,7 +49,7 @@ function Road(ax, ay, bx, by){
     this.draw = function(ctx, offset){
         if (!calc) {
             can = document.createElement('canvas');
-            can.width = 1000;
+            can.width = 2000;
             can.height = 640,
             context = can.getContext('2d');
             for (var i=0;i<100;i++){
@@ -58,30 +58,30 @@ function Road(ax, ay, bx, by){
                 var y=(1-t)*((1-t)*this.y0+t*this.y1)+t*((1-t)*this.y1+t*this.y2);
                 var xDraw = x;
                 if (xDraw<0){
-                    xDraw+=1000;
+                    xDraw+=2000;
                 }
                 if (xDraw>640){
-                    xDraw-=1000;
+                    xDraw-=2000;
                 }
                 ctx.moveTo(xDraw,y);
                 var dx = 2*(1-t)*(this.x1-this.x0)+2*t*(this.x2-this.x1);
                 var dy = 2*(1-t)*(this.y1-this.y0)+2*t*(this.y2-this.y1);
                 drawRotatedImage(context, img, xDraw, y, Math.atan2(dy, dx));
-                drawRotatedImage(context, img, xDraw+1000, y, Math.atan2(dy, dx));
-                drawRotatedImage(context, img, xDraw-1000, y, Math.atan2(dy, dx));
+                drawRotatedImage(context, img, xDraw+2000, y, Math.atan2(dy, dx));
+                drawRotatedImage(context, img, xDraw-2000, y, Math.atan2(dy, dx));
                 offsetInternal = xDraw;
             }
             calc=true;
         }
         ctx.drawImage(can,offset,0);
-        ctx.drawImage(can,offset-1000,0);
+        ctx.drawImage(can,offset-2000,0);
         for (var i=count; i<100; i+=20) {
             var t=i/100;
             var x=(1-t)*((1-t)*this.x0+t*this.x1)+t*((1-t)*this.x1+t*this.x2);
             var y=(1-t)*((1-t)*this.y0+t*this.y1)+t*((1-t)*this.y1+t*this.y2);
             ctx.beginPath();
             ctx.arc(x+offset,y,3,0,2*Math.PI);
-            ctx.arc(x+offset-1000,y,3,0,2*Math.PI);
+            ctx.arc(x+offset-2000,y,3,0,2*Math.PI);
             ctx.fill();
         }
         count+=1;
@@ -106,8 +106,8 @@ function Road(ax, ay, bx, by){
     }
     
     this.cross = function(Cx, Cy, Dx, Dy){
-        Cx%=1000;
-        Dx%=1000;
+        Cx%=2000;
+        Dx%=2000;
         var Ax=this.x0;
         var Bx=this.x2;
         var Ay=this.y0;
@@ -120,8 +120,8 @@ function Road(ax, ay, bx, by){
         if (o1 != o2 && o3 != o4) {
             return true;
         }
-        Cx+=1000;
-        Dx+=1000;
+        Cx+=2000;
+        Dx+=2000;
         o1 = orientation(Ax, Ay, Bx, By, Cx, Cy);
         o2 = orientation(Ax, Ay, Bx, By, Dx, Dy);
         o3 = orientation(Cx, Cy, Dx, Dy, Ax, Ay);
@@ -129,8 +129,8 @@ function Road(ax, ay, bx, by){
         if (o1 != o2 && o3 != o4) {
             return true;
         }
-        Cx-=2000;
-        Dx-=2000;
+        Cx-=4000;
+        Dx-=4000;
         o1 = orientation(Ax, Ay, Bx, By, Cx, Cy);
         o2 = orientation(Ax, Ay, Bx, By, Dx, Dy);
         o3 = orientation(Cx, Cy, Dx, Dy, Ax, Ay);
