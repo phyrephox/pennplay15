@@ -17,26 +17,28 @@ function City(xPos, yPos, owner){
     
     this.draw = function(ctx, offset) {
         var xDraw = this.x+offset;
-        ctx.moveTo(xDraw, this.y);
-        ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
+        ctx.beginPath();
+        ctx.lineWidth = 3+this.rank;
+        if (this.owner == 0) {
+            var color = Math.floor(255-255*this.rank2/this.rank*2);
+            console.log(color);
+            ctx.strokeStyle = 'rgb(0,0,'+color+')';//"#0000ff";
+        } else {
+            var color = Math.floor(255*this.rank1/this.rank*2);
+            console.log(color);
+            ctx.strokeStyle = 'rgb('+color+',255,'+color+')';//"#00ff00";
+        }
+        console.log(this.owner+" "+ctx.strokeStyle);
+        //ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
         if (xDraw<0){
             xDraw+=1000;
         }
         if (xDraw>640){
             xDraw-=1000;
         }
-        ctx.drawImage(img, xDraw-50/2,this.y-35/2, 50, 35);
-        ctx.beginPath();
-        ctx.lineWidth = 4;
         ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
-        var color = 255*(this.owner==0?this.rank1:this.rank2)/this.rank;
-        console.log(color);
-        if (this.owner == 0) {
-            ctx.strokeStyle = 'rgb(0,0,'+color+')';//"#0000ff";
-        } else {
-            ctx.strokeStyle = 'rgb(0,'+color+',0)';//"#00ff00";
-        }
         ctx.stroke();
+        ctx.drawImage(img, xDraw-50/2,this.y-35/2, 50, 35);
     }
     
     this.contains = function(x, y) {
