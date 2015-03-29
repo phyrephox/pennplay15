@@ -1,10 +1,10 @@
 function City(xPos, yPos, owner){
     this.x=xPos;
     if (this.x<0){
-        this.x+=1000;
+        this.x+=2000;
     }
     if (this.x>640){
-        this.x-=1000;
+        this.x-=2000;
     }
     this.y=yPos;
     this.rank;
@@ -31,10 +31,10 @@ function City(xPos, yPos, owner){
         //console.log(this.owner+" "+ctx.strokeStyle);
         //ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
         if (xDraw<0){
-            xDraw+=1000;
+            xDraw+=2000;
         }
         if (xDraw>640){
-            xDraw-=1000;
+            xDraw-=2000;
         }
         ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
         ctx.stroke();
@@ -46,12 +46,12 @@ function City(xPos, yPos, owner){
         if (dist < 2*rad*rad) {
             return true;
         }
-        x+=1000;
+        x+=2000;
         dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
         if (dist < 2*rad*rad) {
             return true;
         }
-        x-=2000;
+        x-=4000;
         dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
         if (dist < 2*rad*rad) {
             return true;
