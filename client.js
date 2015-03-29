@@ -1,7 +1,7 @@
 var mus = document.createElement('audio');
-mus.src='music_loop';
+mus.src='Space_Loop.wav';
 var musI = document.createElement('audio');
-musI.src='music_intro';
+musI.src='Space_Intro.wav';
 /*var musRoad = document.createElement('audio');
 musRoad.src = '/newRoad.wav';*/
 musI.play();
@@ -318,7 +318,7 @@ function handleMouseUp(e) {
     snd[sndIndex].src = '/newRoad.wav';
     snd[sndIndex].play();
     sndIndex++;
-    smdIndex%=10;
+    sndIndex%=10;
     socket.emit('new_road', [startCity, endCity, road_temp.dist]);
     startCity=-1;
 }
