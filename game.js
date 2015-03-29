@@ -30,13 +30,12 @@ function game() {
 			}
 
 			g.updateNodes();
-			callback(that.getState());
+			callback(that.getUpdate());
 			time = now;
 		}
 	}
 	this.getUpdate = function() {
-		//TODO
-		console.log('NUTHIN YET');
+		return g.updateNodes();	
 	}
 
 	//gets the entire state of the graph.
