@@ -82,7 +82,7 @@ socket.on('realize_road', function(msg){
         socket.emit('client_confused');
     } else {
         var start = cities[msg[0]], end = cities[msg[1]];
-        roads[roads.length] = new Road(start.x, start.y, end.x, end.y);
+        roads[roads.length] = makeRoad(start.x, start.y, end.x, end.y);
     }
 });
 
@@ -252,8 +252,8 @@ function handleMouseUp(e) {
         cities[cities.length] = new City(startX, startY, team);
         socket.emit('new_city', [startX, startY, cities.length-1]);
     }
-    roads[roads.length] = makeRoad(startX, startY, x, y);
-    socket.emit('new_road', [startCity, endCity, roads[roads.length-1].dist]);
+    var road_temp = makeRoad(startX, startY, x, y);
+    socket.emit('new_road', [startCity, endCity, road_temp.dist]);
     startCity=-1;
 }
 
