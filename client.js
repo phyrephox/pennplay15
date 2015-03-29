@@ -60,7 +60,13 @@ socket.on('new-state', function(state){
 });
 
 socket.on('update', function(state){
-    console.log(state);
+    //console.log(state);
+    for (var i=0; i<state.length;i++){
+        cities[i].rank1=state[i][0];
+        cities[i].rank2=state[i][1];
+        cities[i].rank =state[i][2];
+        cities[i].owner=state[i][3];
+    }
 });
 
 socket.on('realize_city', function(msg){

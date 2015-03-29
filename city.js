@@ -8,16 +8,10 @@ function City(xPos, yPos, owner){
     }
     this.y=yPos;
     this.rank;
-    this.rankA;
-    this.rankB;
+    this.rank1;
+    this.rank2;
     this.owner=owner;
     var rad=25;
-    
-    this.updateRank = function(rankA, rankB) {
-        this.rankA=rankA;
-        this.rankB=rankB;
-        this.rank=rankA+rankB;
-    }
     var img = new Image;
     img.src = 'city1.png';
     
