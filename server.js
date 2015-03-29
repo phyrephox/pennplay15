@@ -46,19 +46,25 @@ io.on('connection', function(socket) {
 				socket.uuid = uuid.v1();
 				secondSocket = socket;
 				socket.game.start(function(state) {
+					var power = state[0];
+					var gameStatus = state[1];
+					var rank = gameStatus[0];
+					var endgame = gameStatus[1];
+					console.log(state[0]);
 					console.log(state[1]);
-					if (state[1][0]) {
+
+					if (endgame[0]) {
 						firstSocket.emit('endgame', 0);
 						secondSocket.emit('endgame', 0);
 						console.log("WOOO 0 won!");
 					} 
-					if (state[1][1]) {
+					if (endgame[1]) {
 						firstSocket.emit('endgame', 1);
 						secondSocket.emit('endgame', 1);
 						console.log("WOOO 1 won!");
 					}
-					socket.emit('update', state[0]);
-					firstSocket.emit('update', state[0]);
+					socket.emit('update', [power, rank]);
+					firstSocket.emit('update',[power, rank]);
 				});
 				console.log('second' + socket.game);
 				socket.emit('found', 1);
