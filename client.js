@@ -1,11 +1,18 @@
-var mus = document.getElementById('music_loop');
-var musI = document.getElementById('music_intro');
-var musRoad = document.createElement('audio');
-musRoad.src = '/newRoad.wav';
+var mus = document.createElement('audio');
+mus.src='music_loop';
+var musI = document.createElement('audio');
+musI.src='music_intro';
+/*var musRoad = document.createElement('audio');
+musRoad.src = '/newRoad.wav';*/
 musI.play();
 //mus.play();
 mus.loop=true;
 musI.addEventListener('ended', function(){mus.play()}, false);
+var snd = [];
+for (var i=0; i<10; i++){
+    snd[i] = document.createElement('audio');
+}
+var sndIndex = 0;
 
 window.addEventListener('keydown', keyPress, false);
 window.addEventListener('keyup', keyRelease, false);
@@ -308,7 +315,10 @@ function handleMouseUp(e) {
         return;
     }
     power-=10;
-    musRoad.play();
+    snd[sndIndex].src = '/newRoad.wav';
+    snd[sndIndex].play();
+    sndIndex++;
+    smdIndex%=10;
     socket.emit('new_road', [startCity, endCity, road_temp.dist]);
     startCity=-1;
 }
