@@ -1,12 +1,40 @@
 function vertex(x, y, owner) {
 	this.inEdges = [];
 	this.outEdges = [];
+
+
 	this.p1rank;
 	this.p2rank;
+	if (owner == 0) {
+		this.p1rank = 1.0;
+		this.p2rank = .0;
+	} else if (owner == 1) {
+		this.p1rank = .0;
+		this.p2rank = 1.0;
+	}
+
+	//this.p1rank = 0;
+	//this.p2rank = 0;
+	this.totalRank = 1.0;
+	this.oldRank = 1.0;
 	this.x = x;
 	this.y = y;
 	this.owner = owner;
+	this.outDegree;
 
+	this.nextState = function() {
+		this.oldRank = this.totalRank;
+	}
+
+	this.setP1Rank = function(val) {
+		this.p1rank = val;
+		this.totalRank = this.p1rank + this.p2rank;
+	}
+
+	this.setP2Rank = function(val) {
+		this.p2rank = val;
+		this.totalRank = this.p1rank + this.p2rank;
+	}
 
 	//returns true if this vertex has an edge to v. False otherwise.
 	this.hasOutEdge = function(v) {
@@ -26,7 +54,7 @@ function vertex(x, y, owner) {
 	//false otherwise.
 	this.hasEdge = function(v) {
 		return this.hasOutEdge(v) || this.hasInEdge(v);
-	}
+}
 
 	//Adds an edge to inEdges -- denotes an edge from another vertex to this one.
 	this.addInEdge = function(v, weight) {
