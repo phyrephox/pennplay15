@@ -37,8 +37,11 @@ module.exports.rank = function(vertices) {
 		} else {
 			vertices[i].owner = 1;
 		}
-
+		
 		update[i] = [ vertices[i].p1rank, vertices[i].p2rank, vertices[i].totalRank, vertices[i].owner];
 	}
+	console.log('  ');
+	console.log(' ');
+	console.log(update);
 	return update;
 }

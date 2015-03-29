@@ -28,8 +28,6 @@ function game() {
 				g.addEdge(newEdges[i].u, 
 							newEdges[i].v, newEdges[i].weight);
 			}
-
-			g.updateNodes();
 			callback(that.getUpdate());
 			time = now;
 		}
