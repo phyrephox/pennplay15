@@ -75,7 +75,7 @@ function Road(ax, ay, bx, by){
         }
         ctx.drawImage(can,offset,0);
         ctx.drawImage(can,offset-2000,0);
-        for (var i=count; i<100; i+=20) {
+        for (var i=count; i<100; i+=50) {
             var t=i/100;
             var x=(1-t)*((1-t)*this.x0+t*this.x1)+t*((1-t)*this.x1+t*this.x2);
             var y=(1-t)*((1-t)*this.y0+t*this.y1)+t*((1-t)*this.y1+t*this.y2);
@@ -85,7 +85,7 @@ function Road(ax, ay, bx, by){
             ctx.fill();
         }
         count+=1;
-        count%=20;
+        count%=50;
     }
     
     function drawRotatedImage(ctx, image, x, y, angle){//, wave) { 

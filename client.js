@@ -47,7 +47,7 @@ socket.on('found', function(msg){
 	if (team == 0) {
 	    offset = -180;
 	} else {
-	    mus.muted=true;
+	    //mus.muted=true;
 	    offset = -1180;
 	}
 });
