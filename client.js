@@ -1,7 +1,7 @@
 var mus = document.getElementById('music_loop');
 var musI = document.getElementById('music_intro');
 var musRoad = document.createElement('audio');
-//musRoad.src = '/makeRoad.wav';
+musRoad.src = '/newRoad.wav';
 musI.play();
 //mus.play();
 mus.loop=true;
@@ -40,6 +40,7 @@ socket.on('found', function(msg){
 	if (team == 0) {
 	    offset = -180;
 	} else {
+	    mus.muted=true;
 	    offset = -1180;
 	}
 });
@@ -307,6 +308,7 @@ function handleMouseUp(e) {
         return;
     }
     power-=10;
+    musRoad.play();
     socket.emit('new_road', [startCity, endCity, road_temp.dist]);
     startCity=-1;
 }
