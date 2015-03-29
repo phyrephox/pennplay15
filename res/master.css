@@ -2,6 +2,17 @@ body {
 
 }
 
+#canvas {
+	width:50%;
+	margin: 0 auto;
+}
+
+#content-wrapper {
+	max-width:75%;
+	min-width:700px;
+	margin: 0 auto;
+}
+
 #header {
 	background-color:#FF851B;
 	margin-left:auto;
@@ -11,5 +22,7 @@ body {
 h1 {
 	margin-left:auto;
 	margin-right:auto;
+	text-align:center;
 	color:#B7410E;
+	font-size:6em;
 }
