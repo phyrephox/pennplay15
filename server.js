@@ -130,11 +130,23 @@ app.get('/Space_Loop.wav', function(req, res, err){
 app.get('/Space_Intro.wav', function(req, res, err){
 	res.sendFile(__dirname + '/res/Space_Intro.wav');
 });
+app.get('/about', function(req, res, err) {
+	res.sendFile(__dirname + '/about.html');
+});
+
+app.get('/logo.png', function(req, res, err) {
+	res.sendFile(__dirname + '/res/logo.png');
+});
+app.get('/symphonia.jpg', function(req, res, err) {
+	res.sendFile(__dirname + '/res/symphonia.jpg');
+});
+app.get('/master.css', function (req, res, err) {
+	console.log('master requested.');
+	res.sendFile(__dirname + '/res/master.css');
+});
 app.get('/', function(req, res, err){
 	res.sendFile(__dirname + '/index.html');
 });
-
-
 http.listen(3000, function(){
  console.log('listening on 3000');
 });

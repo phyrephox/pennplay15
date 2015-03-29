@@ -2,16 +2,22 @@
 <html>
 <head>
 <title>GAME OF THE YEAR</title>
+<link rel="stylesheet" type="text/css" href="master.css">
 </head>
 
 <body>
+<div id=audio>
 <audio controls id="music_loop">
     <source src="Space_Loop.wav" type="audio/wav">
 </audio>
-<canvas id='field' width='640' height='640' style="border:1px solid #000000;" 
+</div>
+<div id=header>
+<h1>MARSWARS</h1>
+</div>
+<canvas align='left' id='field' width='640' height='640' style="border:1px solid #000000;" 
     onmousedown="handleMouseDown(event)" onmouseup="handleMouseUp(event)">
 your browser does not support html5 canvas</canvas>
-
+<img src="logo.png" align='right'> 
 <script src="/socket.io/socket.io.js"></script>
 <script src='road.js'> </script>
 <script src='city.js'> </script>

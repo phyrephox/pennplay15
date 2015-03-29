@@ -1,5 +1,5 @@
 var vertex = require('./vertex');
-
+var rank = require('./rank');
 function graph() {
 	this.vertices = [];
 
@@ -67,7 +67,7 @@ function graph() {
 	
 	//calls rankUpdate to update rank. YESH.
 	this.updateNodes = function() {
-		//TODO	
+		//
 	}
 
 	//returns number of nodes.
