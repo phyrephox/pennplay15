@@ -120,6 +120,8 @@ io.on('connection', function(socket) {
 		if (socket.game.deleteEdge(array2D[0])) {
 			firstSocket.emit('realize_delete', array2D[1]);
 			secondSocket.emit('realize_delete', array2D[1]);
+			firstSocket.emit('new-state', socket.game.getState());
+			secondSocket.emit('new-state', socket.game.getState());
 		} else {
 			console.log('client tried illegal delete.');
 			socket.emit('new-state', socket.game.getState());
