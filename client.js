@@ -17,6 +17,9 @@ var startX = 0;
 var startY = 0;
 var team = 0;
 
+var bg = new Image();
+bg.src = '/mars.jpg';
+
 var socket = io();
 socket.on('onconnected', function(msg) {
 	console.log('connected!');
@@ -128,6 +131,8 @@ function draw(){
     //console.log(cities);
     //console.log(roads);
     ctx.clearRect(0,0,640,640);
+    ctx.drawImage(bg,1000-offset,0,offset,640,0,0,offset, 640);
+    ctx.drawImage(bg,offset,0);
     offset+=scroll;
     if (offset < 0) {
         offset += 1000;

@@ -134,6 +134,12 @@ app.get('/about', function(req, res, err) {
 	res.sendFile(__dirname + '/about.html');
 });
 
+app.get('/road.png', function(req, res, err) {
+    res.sendFile(__dirname + '/res/road.png');
+});
+app.get('/mars.jpg', function(req, res, err) {
+    res.sendFile(__dirname + '/res/mars.jpg');
+});
 app.get('/logo.png', function(req, res, err) {
 	res.sendFile(__dirname + '/res/logo.png');
 });

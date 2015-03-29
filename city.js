@@ -42,12 +42,12 @@ function City(xPos, yPos, owner){
     
     this.contains = function(x, y) {
         dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
-        if (dist < 4*rad*rad) {
+        if (dist < 2*rad*rad) {
             return true;
         }
         x+=1000;
         dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
-        if (dist < 4*rad*rad) {
+        if (dist < 2*rad*rad) {
             return true;
         }
         x-=2000;
