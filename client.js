@@ -1,5 +1,7 @@
 var mus = document.getElementById('music_loop');
 var musI = document.getElementById('music_intro');
+var musRoad = document.createElement('audio');
+//musRoad.src = '/makeRoad.wav';
 musI.play();
 //mus.play();
 mus.loop=true;
@@ -20,6 +22,8 @@ var startCity = -1;
 var startX = 0;
 var startY = 0;
 var team = 0;
+var outcome = 0;
+var power = 100;
 
 var bg = new Image();
 bg.src = '/mars.jpg';
@@ -33,6 +37,13 @@ socket.on('found', function(msg){
     team = msg;
     console.log(team);
 	socket.emit('playing');
+});
+socket.on('endgame', function(msg){
+    if (team == msg) {
+        outcome=1;
+    } else {
+        outcome=-1;
+    }
 });
 
 socket.on('new-state', function(state){
@@ -59,8 +70,10 @@ socket.on('new-state', function(state){
     //console.log(roads);
 });
 
-socket.on('update', function(state){
+socket.on('update', function(info){
     //console.log(state);
+    power = info[0][team];
+    var state = info[1];
     for (var i=0; i<state.length;i++){
         cities[i].rank1=state[i][0];
         cities[i].rank2=state[i][1];
@@ -138,6 +151,21 @@ function draw(){
     for (var i=0;i<cities.length;i++){
         cities[i].draw(ctx, offset);
     }
+    if (outcome==1) {
+        ctx.font="30px verdana";
+        ctx.fillText("CONGRADULATIONS!",10,305);
+    } else if (outcome==-1) {
+        ctx.font="30px verdana";
+        ctx.fillText("YOU LOSE",10,305);
+    }
+    ctx.fillStyle='#000000';
+    ctx.fillRect(0,640,640,10);
+    if (team == 0){
+        ctx.fillStyle='#0000ff';
+    } else {
+        ctx.fillStyle='#00ff00';
+    }
+    ctx.fillRect(0,640,power/100*640,10);
 }
 
 function handleMouseDown(e) {
@@ -232,6 +260,11 @@ function handleMouseUp(e) {
         startCity=-1;
         return;
     }
+    var road_temp = makeRoad(startX, startY, x, y);
+    if (road_temp.dist>200) {
+        startCity=-1;
+        return;
+    }
     if (startCity != cities.length) { //start city is old
         if (cities[startCity].owner != team) { // start city is enemy
             console.log('starting at enemy '+startCity);
@@ -240,6 +273,11 @@ function handleMouseUp(e) {
         }
         if (endCity == cities.length) { // end city is new
             console.log('from exist to new');
+            if (power<25) {
+                startCity=-1;
+                return;
+            }
+            power-=15;
             cities[cities.length] = new City(x, y, team);
             socket.emit('new_city', [x, y, cities.length-1]);
         }
@@ -249,10 +287,19 @@ function handleMouseUp(e) {
             startCity = -1;
             return;
         }
+        if (power<25) {
+            startCity=-1;
+            return;
+        }
+        power-=15;
         cities[cities.length] = new City(startX, startY, team);
         socket.emit('new_city', [startX, startY, cities.length-1]);
     }
-    var road_temp = makeRoad(startX, startY, x, y);
+    if (power<10) {
+        startCity=-1;
+        return;
+    }
+    power-=10;
     socket.emit('new_road', [startCity, endCity, road_temp.dist]);
     startCity=-1;
 }

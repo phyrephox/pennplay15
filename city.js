@@ -21,14 +21,14 @@ function City(xPos, yPos, owner){
         ctx.lineWidth = 3+this.rank;
         if (this.owner == 0) {
             var color = Math.floor(255-255*this.rank2/this.rank*2);
-            console.log(color);
+            //console.log(color);
             ctx.strokeStyle = 'rgb(0,0,'+color+')';//"#0000ff";
         } else {
             var color = Math.floor(255*this.rank1/this.rank*2);
-            console.log(color);
+            //console.log(color);
             ctx.strokeStyle = 'rgb('+color+',255,'+color+')';//"#00ff00";
         }
-        console.log(this.owner+" "+ctx.strokeStyle);
+        //console.log(this.owner+" "+ctx.strokeStyle);
         //ctx.arc(xDraw, this.y, rad, 0, 2*Math.PI);
         if (xDraw<0){
             xDraw+=1000;
