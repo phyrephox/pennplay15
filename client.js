@@ -52,7 +52,10 @@ socket.on('found', function(msg){
 	}
 });
 socket.on('endgame', function(msg){
-    if (team == msg) {
+    if (outcome!=0);
+    else if (team == msg) {
+        mus.muted=true;
+        playSound('victory.wav').addEventListener('ended', function(){mus.muted=false},false);
         outcome=1;
     } else {
         outcome=-1;
@@ -91,6 +94,11 @@ socket.on('update', function(info){
         cities[i].rank1=state[i][0];
         cities[i].rank2=state[i][1];
         cities[i].rank =state[i][2];
+        if (cities[i].owner == team && state[i][3] != team) {
+            playSound('lostCity.wav');
+        } else if (cities[i].owner != team && state[i][3] == team) {
+            playSound('takeover.wav');
+        }
         cities[i].owner=state[i][3];
     }
 });
@@ -109,6 +117,9 @@ socket.on('realize_road', function(msg){
         socket.emit('client_confused');
     } else {
         var start = cities[msg[0]], end = cities[msg[1]];
+        if (cities[msg[1]].owner == team && cities[msg[0]].owner != team) {
+            playSound('underAttack.wav');
+        }
         roads[roads.length] = makeRoad(start.x, start.y, end.x, end.y);
     }
 });
@@ -127,6 +138,14 @@ socket.on('realize_delete', function(msg){
     }
     roads.length = count;
 });
+
+function playSound(src) {
+    snd[sndIndex].src = src;
+    snd[sndIndex].play();
+    sndIndex++;
+    sndIndex%=10;
+    return snd[sndIndex-1];
+}
 
 function makeRoad(startX, startY, x, y) {
     var distA = Math.abs(startX-x);
@@ -147,9 +166,16 @@ function draw(){
     //console.log(cities);
     //console.log(roads);
     ctx.clearRect(0,0,640,640);
-    ctx.drawImage(bg,2000-offset,0,offset,640,0,0,offset, 640);
-    ctx.drawImage(bg,1000-offset,0,offset,640,0,0,offset, 640);
-    ctx.drawImage(bg,offset,0);
+    ctx.save();
+    ctx.translate(offset,0);
+    //ctx.drawImage(bg,2000-offset,0,offset%1000,640,0,0,offset%1000, 640);
+    //ctx.drawImage(bg,1000-offset,0,offset%1000,640,0,0,offset%1000, 640);
+    //ctx.drawImage(bg,1000,0);
+    ctx.drawImage(bg,0,0);
+    ctx.drawImage(bg,-1000,0);
+    ctx.drawImage(bg,-2000,0);
+    //ctx.drawImage(bg,2000,0);
+    ctx.restore();
     offset+=scroll;
     if (offset < 0) {
         offset += 2000;
@@ -167,11 +193,11 @@ function draw(){
         cities[i].draw(ctx, offset);
     }
     if (outcome==1) {
-        ctx.font="30px verdana";
-        ctx.fillText("CONGRADULATIONS!",10,305);
+        ctx.font="100px verdana";
+        ctx.fillText("CONGRADULATIONS!",10,270);
     } else if (outcome==-1) {
-        ctx.font="30px verdana";
-        ctx.fillText("YOU LOSE",10,305);
+        ctx.font="100px verdana";
+        ctx.fillText("YOU LOSE",10,270);
     }
     ctx.fillStyle='#000000';
     ctx.fillRect(0,640,640,10);
@@ -288,12 +314,13 @@ function handleMouseUp(e) {
         }
         if (endCity == cities.length) { // end city is new
             console.log('from exist to new');
-            if (power<25) {
+            if (power<15) {
                 startCity=-1;
                 return;
             }
-            power-=15;
+            power-=10;
             cities[cities.length] = new City(x, y, team);
+            playSound('newCity.wav');
             socket.emit('new_city', [x, y, cities.length-1]);
         }
     } else { // start city is new
@@ -302,23 +329,21 @@ function handleMouseUp(e) {
             startCity = -1;
             return;
         }
-        if (power<25) {
+        if (power<15) {
             startCity=-1;
             return;
         }
-        power-=15;
+        power-=10;
         cities[cities.length] = new City(startX, startY, team);
+            playSound('newCity.wav');
         socket.emit('new_city', [startX, startY, cities.length-1]);
     }
     if (power<10) {
         startCity=-1;
         return;
     }
-    power-=10;
-    snd[sndIndex].src = '/newRoad.wav';
-    snd[sndIndex].play();
-    sndIndex++;
-    sndIndex%=10;
+    power-=5;
+    playSound('newRoad.wav');
     socket.emit('new_road', [startCity, endCity, road_temp.dist]);
     startCity=-1;
 }

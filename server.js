@@ -147,28 +147,28 @@ app.get('/city.js', function(req, res, err){
 app.get('/road.js', function(req, res, err){
     res.sendFile(__dirname + '/road.js');
 });
-app.get('/Space_Loop.wav', function(req, res, err){
+app.get('/Space_Loop.wav', function(req, res, err){//
     res.sendFile(__dirname + '/res/sounds/MORESpace_Loop.wav');
 });
-app.get('/Space_Intro.wav', function(req, res, err){
+app.get('/Space_Intro.wav', function(req, res, err){//
 	res.sendFile(__dirname + '/res/sounds/MORESpace_Intro.wav');
 });
-app.get('/victory.wav', function(req, res, err){
-    res.sendFile(__dirname + '/res/sounds/MORESpaceVictory.wav');
+app.get('/victory.wav', function(req, res, err){//
+    res.sendFile(__dirname + '/res/sounds/MORESpace_Victory.wav');
 });
-app.get('/underAttack.wav', function(req, res, err){
+app.get('/underAttack.wav', function(req, res, err){//
     res.sendFile(__dirname + '/res/sounds/SpaceSound_CityUnderAttack1.wav');
 });
-app.get('/lostCity.wav', function(req, res, err){
+app.get('/lostCity.wav', function(req, res, err){//
     res.sendFile(__dirname + '/res/sounds/SpaceSound_LossOfCity5.wav');
 });
-app.get('/newCity.wav', function(req, res, err){
+app.get('/newCity.wav', function(req, res, err){//
     res.sendFile(__dirname + '/res/sounds/SpaceSound_NewCity1.wav');
 });
-app.get('/newRoad.wav', function(req, res, err){
+app.get('/newRoad.wav', function(req, res, err){//
     res.sendFile(__dirname + '/res/sounds/SpaceSound_NewTradeRoute1.wav');
 });
-app.get('/takeover.wav', function(req, res, err){
+app.get('/takeover.wav', function(req, res, err){//
     res.sendFile(__dirname + '/res/sounds/SpaceSound_TakeoverCity3.wav');
 });
 app.get('/about', function(req, res, err) {
