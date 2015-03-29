@@ -50,8 +50,8 @@ io.on('connection', function(socket) {
 					var gameStatus = state[1];
 					var rank = gameStatus[0];
 					var endgame = gameStatus[1];
-					console.log(state[0]);
-					console.log(state[1]);
+//					console.log(state[0]);
+//					console.log(state[1]);
 
 					if (endgame[0]) {
 						firstSocket.emit('endgame', 0);
@@ -200,3 +200,4 @@ app.get('/', function(req, res, err){
 http.listen(3000, function(){
  console.log('listening on 3000');
 });
+
