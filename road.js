@@ -31,7 +31,9 @@ function Road(ax, ay, bx, by){
     this.x1 = xMid + this.dist/4/distT*(xTemp-xMid);
     this.y1 = yMid + this.dist/4/distT*(yTemp-yMid);
 
-    count = 0;
+    var count = 0;
+    var img = new Image;
+    img.src = 'road.png';
     this.draw = function(ctx, offset){
         ctx.moveTo(this.x0+offset,this.y0);
         for (var i=0;i<100;i++){
@@ -46,15 +48,32 @@ function Road(ax, ay, bx, by){
                 xDraw-=1000;
             }
             ctx.moveTo(xDraw,y);
-            if (i%10==count) {
+            var dx = 2*(1-t)*(this.x1-this.x0)+2*t*(this.x2-this.x1);
+            var dy = 2*(1-t)*(this.y1-this.y0)+2*t*(this.y2-this.y1);
+            drawRotatedImage(ctx, img, xDraw, y, Math.atan2(dy, dx),i%20==Math.floor(count));
+            /*if (i%10==count) {
                 ctx.arc(xDraw, y, 5*t, 0, 2*Math.PI);
             } else {
                 ctx.arc(xDraw, y, 3*t, 0, 2*Math.PI);
-            }
+            }*/
+            
         }
-        count++;
-        count%=10;
+        count+=.5;
+        count%=20;
     }
+    
+    function drawRotatedImage(ctx, image, x, y, angle, wave) { 
+	ctx.save();
+	ctx.translate(x, y);
+	ctx.rotate(angle);
+	if (wave) {
+	    //ctx.drawImage(image, -(image.width/2*1.5), -(image.height/2*1.5),15,15);
+	    ctx.arc(0,0,3,0,2*Math.PI);
+	} else {
+	    ctx.drawImage(image, -(image.width/2), -(image.height/2));
+	}
+	ctx.restore(); 
+}
     
     function crossProd(x1, y1, x2,y2) {
         return x1*x2+y1*y2;
