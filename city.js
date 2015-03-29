@@ -44,6 +44,17 @@ function City(xPos, yPos, owner){
         dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
         if (dist < 4*rad*rad) {
             return true;
-        }return false;
+        }
+        x+=1000;
+        dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
+        if (dist < 4*rad*rad) {
+            return true;
+        }
+        x-=2000;
+        dist = (x-this.x)*(x-this.x)+(y-this.y)*(y-this.y);
+        if (dist < 2*rad*rad) {
+            return true;
+        }
+        return false;
     }
 }

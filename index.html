@@ -7,7 +7,7 @@
 
 <body>
 <div id=audio>
-<audio controls id="music_loop">
+<audio id="music_loop">
     <source src="Space_Loop.wav" type="audio/wav">
 </audio>
 </div>
@@ -21,24 +21,8 @@ your browser does not support html5 canvas</canvas>
 <script src="/socket.io/socket.io.js"></script>
 <script src='road.js'> </script>
 <script src='city.js'> </script>
-<script src='client.js'></script> <!-- must be changed to /client.js (maybe?)-->
+<script src='client.js'></script>
 
-<script>
-	var socket = io();
-	socket.on('onconnected', function(msg) {
-		console.log('connected!');
-		socket.emit('want-to-play');
-	});
-
-	socket.on('found', function() {
-		console.log('playing');
-		socket.emit('playing');
-	});
-
-	socket.on('new-state', function(state) {
-		//console.log(state);
-	});
-</script>
 
 </body>
 </html>

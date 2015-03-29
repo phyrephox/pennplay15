@@ -31,7 +31,7 @@ function Road(ax, ay, bx, by){
     this.x1 = xMid + this.dist/4/distT*(xTemp-xMid);
     this.y1 = yMid + this.dist/4/distT*(yTemp-yMid);
 
-    var count = 0;
+    count = 0;
     this.draw = function(ctx, offset){
         ctx.moveTo(this.x0+offset,this.y0);
         for (var i=0;i<100;i++){
@@ -61,6 +61,8 @@ function Road(ax, ay, bx, by){
     }
     
     this.cross = function(Cx, Cy, Dx, Dy){
+        Cx%=1000;
+        Dx%=1000;
         var Ax=this.x0;
         var Bx=this.x2;
         var Ay=this.y0;
@@ -70,6 +72,24 @@ function Road(ax, ay, bx, by){
         var o2 = orientation(Ax, Ay, Bx, By, Dx, Dy);
         var o3 = orientation(Cx, Cy, Dx, Dy, Ax, Ay);
         var o4 = orientation(Cx, Cy, Dx, Dy, Bx, By);
+        if (o1 != o2 && o3 != o4) {
+            return true;
+        }
+        Cx+=1000;
+        Dx+=1000;
+        o1 = orientation(Ax, Ay, Bx, By, Cx, Cy);
+        o2 = orientation(Ax, Ay, Bx, By, Dx, Dy);
+        o3 = orientation(Cx, Cy, Dx, Dy, Ax, Ay);
+        o4 = orientation(Cx, Cy, Dx, Dy, Bx, By);
+        if (o1 != o2 && o3 != o4) {
+            return true;
+        }
+        Cx-=2000;
+        Dx-=2000;
+        o1 = orientation(Ax, Ay, Bx, By, Cx, Cy);
+        o2 = orientation(Ax, Ay, Bx, By, Dx, Dy);
+        o3 = orientation(Cx, Cy, Dx, Dy, Ax, Ay);
+        o4 = orientation(Cx, Cy, Dx, Dy, Bx, By);
         if (o1 != o2 && o3 != o4) {
             return true;
         }

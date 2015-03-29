@@ -18,9 +18,14 @@ var startY = 0;
 var team = 0;
 
 var socket = io();
+socket.on('onconnected', function(msg) {
+	console.log('connected!');
+	socket.emit('want-to-play');
+});
 socket.on('found', function(msg){
     team = msg;
     console.log(team);
+	socket.emit('playing');
 });
 
 socket.on('new-state', function(state){
@@ -49,7 +54,7 @@ socket.on('new-state', function(state){
 
 socket.on('update', function(state){
     //console.log(state);
-    roads=[];
+    /*roads=[];
     for (var i=0; i<state.length; i++){
         cities[i]=new City(state[i].x, state[i].y, state[i].owner);
         //console.log(state[i].owner+" "+cities[i].owner);
@@ -69,7 +74,7 @@ socket.on('update', function(state){
     }
     roads.length=count;
     //console.log(cities);
-    //console.log(roads);
+    //console.log(roads);*/
 });
 
 socket.on('realize_city', function(msg){
@@ -101,7 +106,6 @@ socket.on('realize_delete', function(msg){
             count++;
         }
     }
-    socket.emit('road_delete', ans);
     roads.length = count;
 });
 
@@ -184,19 +188,31 @@ function handleMouseUp(e) {
     if (endCity==-1) {
         endCity = cities.length;
     }
-    console.log(startCity+" "+endCity);
+    console.log('click '+startCity+" "+endCity);
     if (startCity==endCity) {
         var count = 0;
         var sendCount=0;
         var ans = [];
+        var dist1 = Math.abs(startX-x);
+        var dist2 = Math.abs(startX-x+1000);
+        var dist3 = Math.abs(startX-x-1000);
+        if (dist1 <= dist2 && dist1 <= dist3);
+        else if (dist2 <= dist1 && dist2 <= dist3){
+            startX+=1000;
+        } else {
+            x+=1000;
+        }
+        console.log(x+" "+startX);
         for (var i=0; i<roads.length; i++){
             if (!roads[i].cross(startX, startY, x, y)) {
                 roads[count] = roads[i];
                 count++;
             } else {
-                var from = 0;
-                var to = 0;
+                var from = -1;
+                var to = -1;
+                console.log("road"+roads[i].x2+" "+roads[i].y2);
                 for (var j=0;j<cities.length;j++){
+                    console.log("city"+cities[j].x+" "+cities[j].y);
                     if (cities[j].contains(roads[i].x0, roads[i].y0)) {
                         from = j;
                     } else if (cities[j].contains(roads[i].x2, roads[i].y2)) {
@@ -209,6 +225,7 @@ function handleMouseUp(e) {
                     sendCount++;
                     console.log(from+" "+to);
                 } else {
+                    console.log("can't cut ("+from+", "+to+")");
                     roads[count] = roads[i];
                     count++;
                 }
