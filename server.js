@@ -36,7 +36,7 @@ io.on('connection', function(socket) {
 			if (lookingFirst) {
 				lookingFirst = false;
 				socket.game = new game();
-				console.log(socket.game);
+				//console.log(socket.game);
 				firstSocket = socket;
 				firstSocket.uuid = uuid.v1();
 			} else {
@@ -56,7 +56,7 @@ io.on('connection', function(socket) {
 					if (endgame[0]) {
 						firstSocket.emit('endgame', 0);
 						secondSocket.emit('endgame', 0);
-						console.log("WOOO 0 won!");
+						//console.log("WOOO 0 won!");
 					} 
 					if (endgame[1]) {
 						firstSocket.emit('endgame', 1);
@@ -66,7 +66,7 @@ io.on('connection', function(socket) {
 					socket.emit('update', [power, rank]);
 					firstSocket.emit('update',[power, rank]);
 				});
-				console.log('second' + socket.game);
+				//console.log('second' + socket.game);
 				socket.emit('found', 1);
 				firstSocket.emit('found', 0);
 			}
@@ -87,8 +87,8 @@ io.on('connection', function(socket) {
 			var owner = 1;
 		}
 
-		console.log(socket.game.newVertex);
-		console.log(socket.emit);
+		//console.log(socket.game.newVertex);
+		//console.log(socket.emit);
 		var realIndex = socket.game.newVertex(c[0], c[1], c[2], 
 					owner, function() {
 			console.log("state being reset.");
