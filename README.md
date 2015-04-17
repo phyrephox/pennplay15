@@ -1,8 +1,7 @@
-# pennplay15 -- Mars Economic Diplomacy
+# pennplay15 -- Mars Economic Diplomacy -- MarsWars
 
-##Gameplay
 
-<h2>Authors: Alex Perry, John Hewitt</h2>
+<h3>Authors: Alex Perry, John Hewitt</h2>
 <h3>Music by: Dan Durham. Art by: Eric Quesada</h3>
 <h2>Gameplay</h2>
   <p>Your nation has recently arrived on Mars. Violence has, of course, been banned on the red planet, but this does not stop you and your enemies from 
